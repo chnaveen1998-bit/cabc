@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .admin-actions { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1rem }
+    .admin-actions a, .admin-actions button { padding:0.5rem 0.75rem; border-radius:4px; border:1px solid #ccc; background:#fff; text-decoration:none; color:#222 }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="brand">
+        <a href="/" style="text-decoration:none;color:inherit">
+          <span class="lang-te">సీ.ఏ.బీ.సీ</span>
+          <span class="lang-en">C.A.B.C</span>
+        </a>
+      </h1>
+
+      <nav class="nav">
+        <a href="/index.html#songbook"><span class="lang-te">కీర్తనల పుస్తకం</span><span class="lang-en">Song Book</span></a>
+        <a href="/index.html#sermons"><span class="lang-te">ప్రసంగాలు</span><span class="lang-en">Sermons</span></a>
+        <a href="/index.html#events"><span class="lang-te">గ్యాలరీ</span><span class="lang-en">Gallery</span></a>
+        <a href="/index.html#calendar"><span class="lang-te">క్యాలెండర్</span><span class="lang-en">Calendar</span></a>
+        <a href="/index.html#prayer"><span class="lang-te">ప్రార్థనా వినతులు</span><span class="lang-en">Prayer Request</span></a>
+
+        <div class="nav-item dropdown">
+          <button class="dropdown-toggle btn shortcut" aria-haspopup="true" aria-expanded="false">
+            <span class="lang-te">నిర్వహణ</span>
+            <span class="lang-en">Admin</span>
+            <span class="caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <a role="menuitem" href="/pastor.html"><span class="lang-te">పాస్టర్</span><span class="lang-en">Pastor</span></a>
+            <a role="menuitem" href="/executive-council.html"><span class="lang-te">నిర్వాహక మండలి</span><span class="lang-en">Church Council</span></a>
+            <a role="menuitem" href="/general-body.html"><span class="lang-te">చర్చి సభ్యులు</span><span class="lang-en">Church Members</span></a>
+            <a role="menuitem" href="#" id="adminLoginLink"><span class="lang-te">ప్రశాసక లాగిన్</span><span class="lang-en">Admin Login</span></a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Language switch -->
+      <button id="langToggle" class="btn lang-switch" aria-label="Change language">
+        <span class="lang-te">English</span>
+        <span class="lang-en">తెలుగు</span>
+      </button>
+
+      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <div class="container" style="padding:2rem;max-width:900px">
+    <h1>Admin Dashboard</h1>
+    <div id="adminInfo">Checking login status...</div>
+
+    <div class="admin-actions">
+      <a id="manageMemberships" href="/fellowships/choir.html">Manage Memberships</a>
+      <a id="viewUploads" href="/uploads">Uploads</a>
+      <button id="exportCsv">Export CSV</button>
+        <a id="balanceSheet" href="/storage/finance/balance-sheet.pdf">Balance sheet</a>
+        <a id="sermonSheet" href="/sermons">Sermon videos</a>
+      <button id="adminLogout" class="btn">Logout</button>
+      <button id="devLogin" class="btn" style="display:none;background:#f3f4f6">Dev Login</button>
+      <a href="/" class="btn">Back to site</a>
+    </div>
+  </div>
+
+    <div class="container" style="padding:2rem;max-width:1100px">
+      <h2>Submitted Memberships</h2>
+      <div id="membershipsList">Loading...</div>
+
+      <h2 style="margin-top:1.5rem">Pending Memberships</h2>
+      <div id="pendingMembersList">Loading...</div>
+
+    <h2 style="margin-top:1.5rem">Pending Prayer Requests</h2>
+    <div id="pendingPrayersList">Loading...</div>
+
+      <h2 style="margin-top:1.5rem">Submitted Prayer Requests</h2>
+      <div id="prayersList">Loading...</div>
+
+      <h2 style="margin-top:1.5rem">Submitted Contact Forms</h2>
+      <div id="contactsList">Loading...</div>
+    </div>
+
+  <script>
+    async function check(){
+      try{
+        const r = await fetch('/auth/me', {credentials: 'same-origin'});
+        const j = await r.json();
+        const info = document.getElementById('adminInfo');
+        if(j && j.user){
+          info.innerHTML = '<p>Signed in as: <strong>' + (j.user.email || j.user.name || 'user') + '</strong></p>' + (j.user.admin ? '<p><em>Admin privileges</em></p>' : '');
+        }else{
+          info.innerHTML = '<p>You are not signed in. <a href="/">Return to site and sign in.</a></p>';
+        }
+      }catch(e){ document.getElementById('adminInfo').textContent = 'Unable to check login status'; }
+    }
+
+    document.getElementById('adminLogout').addEventListener('click', async ()=>{
+      await fetch('/auth/logout', {method:'POST'}).catch(()=>{});
+      window.location.href = '/';
+    });
+
+    document.getElementById('exportCsv').addEventListener('click', async ()=>{
+      try{
+        const r = await fetch('/export/memberships', {credentials: 'same-origin'});
+        if(!r.ok) throw new Error('Export failed');
+        const blob = await r.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'memberships.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }catch(e){ alert('Export failed'); }
+    });
+
+    // Dev login helper (visible only when server offers it)
+    document.getElementById('devLogin').addEventListener('click', async ()=>{
+      try{
+        const r = await fetch('/auth/dev-login', {method:'POST', credentials:'same-origin'});
+        const j = await r.json();
+        if(j && j.success){ alert('Dev logged in as ' + j.user.email); check(); setTimeout(()=>{ window.location.href='/dashboard.html'; }, 200); }
+      }catch(e){ alert('Dev login failed'); }
+    });
+
+    // Show dev-login button if endpoint available
+    (async ()=>{
+      try{
+        const c = await fetch('/config');
+        if(c.ok){
+          const cfg = await c.json();
+          // show dev button when no Google client ID and likely running locally
+          if(!cfg.googleClientId) document.getElementById('devLogin').style.display = '';
+        }
+      }catch(e){}
+    })();
+
+    // Fetch and render data helpers
+    async function fetchJson(path){
+      try{ const r = await fetch(path + '?_=' + Date.now()); if(!r.ok) return null; return await r.json(); }catch(e){ return null; }
+    }
+
+    async function renderMemberships(){
+      const el = document.getElementById('membershipsList');
+      const data = await fetchJson('/data/memberships.json');
+      if(!data || !data.length){ el.innerHTML = '<em>No membership submissions found.</em>'; return; }
+      const list = document.createElement('div');
+      list.className = 'membership-columns';
+      data.slice(-50).reverse().forEach(m=>{
+        const card = document.createElement('div'); card.className = 'membership-left';
+        const h = document.createElement('h4'); h.textContent = m.name || m.memberName || ('#' + (m.id||'?'));
+        const meta = document.createElement('div'); meta.innerHTML = `<div><strong>Phone:</strong> ${m.phone||m.memberPhone||''}</div><div><strong>Email:</strong> ${m.email||m.memberEmail||''}</div><div style="margin-top:0.5rem"><small>${m.timestamp||m.ts||''}</small></div>`;
+        card.appendChild(h); card.appendChild(meta);
+        list.appendChild(card);
+      });
+      el.innerHTML = ''; el.appendChild(list);
+    }
+
+  async function renderPrayers(){
+      const el = document.getElementById('prayersList');
+      try{
+  const resp = await fetch('/api/prayers?_=' + Date.now(), {credentials: 'same-origin'});
+        if(!resp.ok){ el.innerHTML = `<em>Failed to load prayers (HTTP ${resp.status})</em>`; return; }
+        const data = await resp.json();
+        if(!data || !data.length){ el.innerHTML = '<em>No prayer requests found.</em>'; return; }
+        // show count for debugging
+        const hdr = document.createElement('div'); hdr.style.marginBottom='0.5rem'; hdr.innerHTML = `<small>Found ${data.length} prayer(s)</small>`; el.appendChild(hdr);
+        const wall = document.createElement('div'); wall.className = 'prayer-wall';
+        data.slice().reverse().forEach(p=>{
+        const item = document.createElement('div'); item.className = 'prayer-item';
+        const meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = (p.name||'') + (p.anon ? ' (anonymous)' : '');
+        const text = document.createElement('div'); text.textContent = p.text || p.message || '';
+        item.appendChild(meta); item.appendChild(text); wall.appendChild(item);
+      });
+        el.innerHTML = ''; el.appendChild(wall);
+      }catch(e){
+        console.error('Failed to render prayers', e);
+        el.innerHTML = '<em>Error loading prayer requests</em>';
+      }
+    }
+
+    async function renderPendingPrayers(){
+      const el = document.getElementById('pendingPrayersList');
+      try{
+        const r = await fetch('/api/pending-prayers', {credentials:'same-origin'});
+        if(!r.ok){ el.innerHTML = `<em>Unable to load pending prayers (HTTP ${r.status})</em>`; return; }
+        const data = await r.json();
+        if(!data || !data.length){ el.innerHTML = '<em>No pending prayers.</em>'; return; }
+        const wrap = document.createElement('div');
+        data.slice().reverse().forEach(p=>{
+          const d = document.createElement('div'); d.style.padding='0.5rem'; d.style.border='1px solid #eee'; d.style.borderRadius='6px'; d.style.marginBottom='0.5rem';
+          const who = p.anon ? 'Anonymous' : (p.name||'Guest');
+          d.innerHTML = `<div style="margin-bottom:0.25rem"><strong>${who}</strong> <small>(${new Date(p.ts*1).toLocaleString()})</small></div><div style="margin-bottom:0.5rem">${p.text}</div>`;
+          const btnApprove = document.createElement('button'); btnApprove.textContent = 'Approve'; btnApprove.className='btn'; btnApprove.style.marginRight='0.5rem';
+          const btnReject = document.createElement('button'); btnReject.textContent = 'Reject'; btnReject.className='btn';
+          btnApprove.addEventListener('click', async ()=>{
+            try{ const rr = await fetch(`/api/pending-prayers/${p.id}/approve`, {method:'POST', credentials:'same-origin'}); if(rr.ok){ alert('Approved'); renderPendingPrayers(); renderPrayers(); }else{ alert('Failed to approve'); } }catch(e){ alert('Error'); }
+          });
+          btnReject.addEventListener('click', async ()=>{
+            try{ const rr = await fetch(`/api/pending-prayers/${p.id}/reject`, {method:'POST', credentials:'same-origin'}); if(rr.ok){ alert('Rejected'); renderPendingPrayers(); }else{ alert('Failed to reject'); } }catch(e){ alert('Error'); }
+          });
+          const control = document.createElement('div'); control.style.marginTop='0.5rem'; control.appendChild(btnApprove); control.appendChild(btnReject);
+          d.appendChild(control);
+          wrap.appendChild(d);
+        });
+        el.innerHTML = ''; el.appendChild(wrap);
+      }catch(e){ el.innerHTML = '<em>Error loading pending prayers</em>'; }
+    }
+
+    async function renderPendingMemberships(){
+      const el = document.getElementById('pendingMembersList');
+      try{
+        const r = await fetch('/api/pending-memberships', {credentials:'same-origin'});
+        if(!r.ok){ el.innerHTML = `<em>Unable to load pending memberships (HTTP ${r.status})</em>`; return; }
+        const data = await r.json();
+        if(!data || !data.length){ el.innerHTML = '<em>No pending memberships.</em>'; return; }
+        const wrap = document.createElement('div');
+        data.slice().reverse().forEach(m=>{
+          const d = document.createElement('div'); d.style.padding='0.5rem'; d.style.border='1px solid #eee'; d.style.borderRadius='6px'; d.style.marginBottom='0.5rem';
+          const nm = m.name || m.memberName || `#${m.id}`;
+          const ph = m.phone || m.memberPhone || '';
+          const em = m.email || m.memberEmail || '';
+          const ts = m.timestamp ? new Date(m.timestamp).toLocaleString() : '';
+          d.innerHTML = `<div style="margin-bottom:0.25rem"><strong>${nm}</strong></div><div><small>${ph}${em? ' · '+em: ''}</small></div><div style="margin-top:0.25rem"><small>${ts}</small></div>`;
+          const btnApprove = document.createElement('button'); btnApprove.textContent = 'Approve'; btnApprove.className='btn'; btnApprove.style.marginRight='0.5rem';
+          const btnReject = document.createElement('button'); btnReject.textContent = 'Reject'; btnReject.className='btn';
+          btnApprove.addEventListener('click', async ()=>{
+            try{ const rr = await fetch(`/api/pending-memberships/${m.id}/approve`, {method:'POST', credentials:'same-origin'}); if(rr.ok){ alert('Membership approved'); renderPendingMemberships(); renderMemberships(); }else{ alert('Failed to approve'); } }catch(e){ alert('Error'); }
+          });
+          btnReject.addEventListener('click', async ()=>{
+            try{ const rr = await fetch(`/api/pending-memberships/${m.id}/reject`, {method:'POST', credentials:'same-origin'}); if(rr.ok){ alert('Membership rejected'); renderPendingMemberships(); }else{ alert('Failed to reject'); } }catch(e){ alert('Error'); }
+          });
+          const controls = document.createElement('div'); controls.style.marginTop='0.5rem'; controls.appendChild(btnApprove); controls.appendChild(btnReject);
+          d.appendChild(controls); wrap.appendChild(d);
+        });
+        el.innerHTML = ''; el.appendChild(wrap);
+      }catch(e){ el.innerHTML = '<em>Error loading pending memberships</em>'; }
+    }
+
+    async function renderContacts(){
+      const el = document.getElementById('contactsList');
+      const data = await fetchJson('/data/contacts.json');
+      if(!data || !data.length){ el.innerHTML = '<em>No contact form submissions found.</em>'; return; }
+      const wrap = document.createElement('div');
+      data.slice().reverse().forEach(c=>{
+        const d = document.createElement('div'); d.style.padding='0.5rem'; d.style.border='1px solid #eee'; d.style.borderRadius='6px'; d.style.marginBottom='0.5rem';
+        d.innerHTML = `<strong>${c.name||c.fullName||''}</strong> &middot; <small>${c.email||c.Email||''}</small><div>${(c.message||c.msg||c.text||'')}</div>`;
+        wrap.appendChild(d);
+      });
+      el.innerHTML = ''; el.appendChild(wrap);
+    }
+
+  // Initialize
+  check(); renderMemberships(); renderPrayers(); renderContacts(); renderPendingPrayers(); renderPendingMemberships();
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

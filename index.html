@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="te" data-lang="te">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Church — Template</title>
+  <meta name="theme-color" content="#ffffff">
+  <!-- Modern font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Language + Sermons minimal styles -->
+  <style>
+    /* Language toggle: show only current language */
+    .lang-te {
+      display: inline;
+    }
+
+    .lang-en {
+      display: none;
+    }
+
+    html[data-lang="en"] .lang-te {
+      display: none !important;
+    }
+
+    html[data-lang="en"] .lang-en {
+      display: inline !important;
+    }
+
+    /* Sermons thumbnails row */
+    .sermon-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+    }
+
+    .sermon-main iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 0;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .sermon-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+    }
+
+    .sermon-thumb {
+      flex: 0 0 auto;
+      width: 140px;
+      cursor: pointer;
+    }
+
+    .sermon-thumb img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .sermon-thumb .title {
+      font-size: 12px;
+      margin-top: 0.25rem;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 900px) {
+      .sermon-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Header lang switch placement */
+    .lang-switch {
+      margin-left: auto;
+    }
+
+    .header-inner {
+      gap: .5rem;
+    }
+
+    @media (max-width: 900px) {
+      .lang-switch {
+        order: 3;
+      }
+    }
+
+    /* contact layout: stack on small screens, side-by-side on larger */
+    .contact-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-left,
+    .contact-right {
+      width: 100%;
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 220px;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    /* Larger screens: side-by-side layout and taller map */
+    @media (min-width: 800px) {
+      .contact-wrap {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      .contact-left {
+        flex: 1 1 55%;
+        min-width: 320px;
+      }
+
+      .contact-right {
+        flex: 0 0 40%;
+        min-width: 260px;
+      }
+
+      .map-wrap iframe {
+        height: 320px;
+      }
+
+      /* keep social links under the map but aligned horizontally */
+      .contact-right .social-links {
+        margin-top: 0.75rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="brand">
+        <span class="lang-te">సీ.ఏ.బీ.సీ</span>
+        <span class="lang-en">C.A.B.C</span>
+      </h1>
+
+      <nav class="nav">
+        <a href="#songbook"><span class="lang-te">కీర్తనల పుస్తకం</span><span class="lang-en">Song Book</span></a>
+        <a href="#sermons"><span class="lang-te">ప్రసంగాలు</span><span class="lang-en">Sermons</span></a>
+        <a href="#events"><span class="lang-te">గ్యాలరీ</span><span class="lang-en">Gallery</span></a>
+        <a href="#calendar"><span class="lang-te">క్యాలెండర్</span><span class="lang-en">Calendar</span></a>
+        <a href="#prayer"><span class="lang-te">ప్రార్థనా వినతులు</span><span class="lang-en">Prayer Request</span></a>
+
+        <div class="nav-item dropdown">
+          <button class="dropdown-toggle btn shortcut" aria-haspopup="true" aria-expanded="false">
+            <span class="lang-te">నిర్వహణ</span>
+            <span class="lang-en">Admin</span>
+            <span class="caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <a role="menuitem" href="pastor.html"><span class="lang-te">పాస్టర్</span><span class="lang-en">Pastor</span></a>
+            <a role="menuitem" href="executive-council.html"><span class="lang-te">నిర్వాహక మండలి</span><span class="lang-en">Church Council</span></a>
+            <!-- Removed Council link per request -->
+            <a role="menuitem" href="general-body.html"><span class="lang-te">చర్చి సభ్యులు</span><span class="lang-en">Church Members</span></a>
+            <a role="menuitem" href="#" id="adminLoginLink"><span class="lang-te">ప్రశాసక లాగిన్</span><span class="lang-en">Admin Login</span></a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Language switch -->
+      <button id="langToggle" class="btn lang-switch" aria-label="Change language">
+        <span class="lang-te">English</span>
+        <span class="lang-en">తెలుగు</span>
+      </button>
+
+      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <!-- Background video: intro.mp4 should live next to index.html or update the src path -->
+      <video id="bgVideo" class="video-bg" playsinline muted preload="auto" aria-hidden="true">
+        <source src="intro.mp4" type="video/mp4" />
+        <!-- fallback poster or message -->
+        Your browser does not support the video tag.
+      </video>
+
+      <div class="container hero-inner">
+
+        <div class="hero-right">
+          <div class="hero-card">
+            <h2>
+              <span class="lang-te">సెంటెనరీ ఆంధ్ర బాప్టిస్ట్ చర్చి కు స్వాగతం</span>
+              <span class="lang-en">Welcome to Centenary Andhra Baptist Church</span>
+            </h2>
+            <p>
+              <span class="lang-te">ఈ ఆదివారం మాతో చేరండి — అందరికీ స్వాగతం</span>
+              <span class="lang-en">Join us this Sunday — everyone welcome</span>
+            </p>
+
+            <div class="polymorph-wrap" aria-hidden="false">
+              <!-- SVG morphing background -->
+              <svg class="polymorph" viewBox="0 0 600 400" preserveAspectRatio="none"
+                xmlns="http://www.w3.org/2000/svg">
+              </svg>
+
+              <div class="timetable">
+                <ul>
+                  <h3><strong>
+                    <span class="lang-te">ఆదివారపు ఆరాధన సమయం</span>
+                    <span class="lang-en">Sunday Worship times</span></strong></h3>
+                  <li>
+                    <div style="display:grid;grid-template-columns:120px 1fr;gap:0.5rem;align-items:center;">
+                      <div><strong>08:00 - 09:00</strong></div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">సండే స్కూల్</span>
+                        <span class="lang-en">Sunday School</span>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div style="display:grid;grid-template-columns:120px 1fr;gap:0.5rem;align-items:center;">
+                      <div><strong>09:00 - 09:30</strong></div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">క్వయిర్</span>
+                        <span class="lang-en">Choir</span>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div style="display:grid;grid-template-columns:120px 1fr;gap:0.5rem;align-items:center;">
+                      <div><strong>09:30 - 12:00</strong></div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">ఆరాధనా</span>
+                        <span class="lang-en">Main Service</span>
+                      </div>
+                    </div>
+                  </li>
+                  <li><span class="lang-te">యవ్వనస్థుల కూడిక (ఆరాధనా అనంతరం)</span><span class="lang-en">Youth Meeting (After Worship)</span></li>
+                  <li>
+                    <div style="display:grid;grid-template-columns:1fr 120px 1fr;gap:0.5rem;align-items:center;">
+                      <div style="display:flex;flex-direction:column;">
+                        <strong>  <span class="lang-te">మంగళవారం</span><span class="lang-en">Tuesday</span></strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:center;">
+                        <strong>
+                          <span class="lang-te">మ|| 2:00 గం||కు</span>
+                          <span class="lang-en">02:00 P.M</span>
+                        </strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">స్త్రీల సమాజం</span>
+                        <span class="lang-en">Women's worship</span>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div style="display:grid;grid-template-columns:1fr 120px 1fr;gap:0.5rem;align-items:center;">
+                      <div style="display:flex;flex-direction:column;">
+                        <strong><span class="lang-te">గురువారం</span><span class="lang-en">Thursday</span></strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:center;">
+                        <strong>
+                          <span class="lang-te">సా|| 6:30 గం||కు</span>
+                          <span class="lang-en">06:30 P.M</span>
+                        </strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">బైబిల్ స్టడీ</span>
+                        <span class="lang-en">Bible Study</span>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div style="display:grid;grid-template-columns:1fr 120px 1fr;gap:0.5rem;align-items:center;">
+                      <div style="display:flex;flex-direction:column;">
+                        <strong><span class="lang-te">శుక్రవారం</span><span class="lang-en">Friday</span></strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:center;">
+                        <strong>
+                          <span class="lang-te">మ|| 2:00 గం||కు</span>
+                          <span class="lang-en">02:00 P.M</span>
+                        </strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">ఉపవాస ప్రార్థన</span>
+                        <span class="lang-en">Fasting Prayer</span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="hero-ctas">
+              <a class="btn primary" href="#contact"> <span class="lang-te">సందర్శన కోసం ప్రణాళిక</span><span
+                  class="lang-en">Plan a visit</span></a>
+              <a class="btn" href="#donations"> <span class="lang-te">విరాళం</span><span class="lang-en">Donate</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sections requested by the user -->
+
+    <section id="history" class="section container" data-reveal>
+      <h2>
+        <span class="lang-te">చర్చి చరిత్ర</span>
+        <span class="lang-en">Church History</span>
+      </h2>
+      <div class="history-row">
+        <div class="history-text">
+          <div class="history-entry">
+            <p class="lang-te">మిషనరీ డి. ఫ్రేజర్ 1904లో తెలుగు బాప్టిస్ట్ చర్చి పునాదిరాయి వేయడం మొదలుపెట్టారు. 1905లో రెవ. ఆర్. ఈ. స్మిత్ నిర్మాణ పనులను ప్రారంభించి, ఈ భవనం 1906 జనవరి 7న రెవ. జాన్ క్రైగచే సమర్పించబడింది.</p>
+            <p class="lang-en">Missionary D. Frazer laid the foundation stone for the Telugu Baptist Church in 1904. Rev. R. E. Smith began construction in 1905, and the building was completed and dedicated by Rev. John Craig on January 7, 1906.</p>
+          </div>
+
+          <div class="history-entry">
+            <p class="lang-te">మిస్ ఫిండే జెస్సీ 1909లో చర్చిలో క్రిస్టియన్ ఎండీవర్ కార్యక్రమాలను ప్రారంభించారు. 1912లో మొదటి పులిపిట్ కమిటీ ఏర్పడింది; సభ్యులుగా ఉన్నారు: రెవ. ఆర్. ఈ. స్మిత్, శ్రీ రామ్రాజయ్య, శ్రీ చీలీ మార్క్, శ్రీ పి. సరమ్మ, శ్రీ చెట్టి శాంబమూర్తి మరియు శ్రీ సింహాద్రి సూర్యనారాయణ.</p>
+            <p class="lang-en">Miss Finday Jessie began Christian Endeavour work at the church in 1909. The first pulpit committee was formed in 1912; its members included Rev. R. E. Smith, Sri Ramanujayyah, Sri Cheeli Mark, Sri P. Sarammah, Sri Chetty Sambamurthy and Sri Simhadri Suryanarayana.</p>
+          </div>
+
+          <div class="history-entry">
+            <p class="lang-te">మొదటి మహిళల బోర్డు 25-7-1913న ఏర్పడింది. శ్రీమతి చపాల పాపయ్యమ్మ అధ్యక్షురాలిగా, మిస్ ఫిండే జెస్సీ ఖజానాదారుగా నియమించబడ్డారు. అదే ఏడాది ప్రథమ క్వైరే, మరియు తొలి సన్డే స్కూల్ ర్యాలీ కూడా నిర్వహించబడ్డాయి. శ్రీ ప్రాథి అప్పారావు మొదటి సన్డే స్కూల్ సూపరింటెండెంట్‌గా సేవలందించారు; 1917 నుంచి శ్రీ సింహాద్రి సూర్యనారాయణ బాధ్యతలు చేపట్టారు.</p>
+            <p class="lang-en">The first Women’s Board was established on July 25, 1913, with Smt. Chapala Papayamma as president and Miss Finday Jessie as treasurer. In the same year the choir and the first Sunday School rally were formed. Sri Prathi Apparao served as the first Sunday School superintendent; in 1917 Sri Simhadri Suryanarayana took over the role.</p>
+          </div>
+
+          <div class="history-entry">
+            <p class="lang-te">చర్చి రాజ్యాంగాన్ని 1929లో రూపొందించి ఆమోదించారు. ఈ రాజ్యాంగాన్ని తీర్చిదిద్దడంలో మిషనరీ ఏవరెట్ ఆర్మ్‌స్ట్రాంగ్, న్యూటన్ ఆర్. ఈటన్ మరియు పి. ఈటన్ ప్రత్యేక పాత్ర పోషించారు.</p>
+            <p class="lang-en">A church constitution was drafted and adopted in 1929. Missionaries Averet Armstrong, Newton R. Eaton and P. Eaton played important roles in preparing that constitution.</p>
+          </div>
+
+          <div class="history-entry">
+            <p class="lang-te">సువర్ణ జూబిలీ 1957లో జరుపుకున్నారు. శ్రీ ఎం. ఓ. సమ్సన్, మాజీ చర్చ్ అధ్యక్షుడు, తరువాత CBCNC కార్యదర్శిగా సేవలందించారు. ప్రొఫెసర్ ఏ. బి. మాసిలమణి వంటి సెమినారు సిబ్బంది కూడా చర్చ్‌కు సహాయపడ్డారు.</p>
+            <p class="lang-en">The church celebrated its Golden Jubilee in 1957. Sri M. V. Samson, a former president of the church, later served as secretary of CBCNC. Seminary staff such as Prof. A. B. Masilamani also supported the church in various ways.</p>
+          </div>
+        </div>
+
+        <aside class="history-photo" aria-hidden="false">
+          <img src="CABCold.jpg" alt="Church photo" />
+        </aside>
+      </div>
+
+      <!-- Know more button within the History section -->
+      <div style="margin-top:0.75rem">
+        <a href="know_more.html" class="btn" title="Know more about the church"><span class="lang-te">చర్చి గురించి మరింత తెలుసుకోండి</span><span class="lang-en">Know more about church</span></a>
+      </div>
+    </section>
+
+    <section id="songbook" class="section container">
+      <h2><span class="lang-te">కీర్తనల పుస్తకం</span><span class="lang-en">Song book</span></h2>
+
+      <div class="songbook-row">
+        <div class="pdf-viewer-section">
+        <p class="muted"> <span class="lang-te">ఆంధ్ర క్రీస్తవ కీర్తనలను తెరవడానికి కీర్తన సంఖ్యను క్రింద ఇవ్వండి. సైట్ పాప్-అప్‌లో సంబంధిత పేజీని లోడ్ చేస్తుంది.</span>
+          <span class="lang-en">Open the Andhra Christava Keerthanalu by entering the song number below. The site will load the song page in a popup within this site.</span>
+        </p>
+        
+        <form id="songGotoForm" class="pdf-goto-form" onsubmit="return false;">
+          <label for="songNumber">Song number</label>
+          <div class="pdf-controls">
+            <input id="songNumber" name="songNumber" type="number" min="1" placeholder="Enter song number (e.g. 2)" />
+            <button id="goSong" class="btn">Go</button>
+            <!-- Download button for the full song book PDF -->
+            <a id="downloadSongbook" class="btn" href="downloads/andhra_christava_keerthanalu.pdf" download><span class="lang-te">డౌన్లోడ్ చేయండి</span><span class="lang-en">Download Song Book</span></a>
+            <!-- Added: Open design in Canva -->
+            <a id="openCanva" class="btn" href="https://www.canva.com/design/DAG2PhaI6KQ/g-NvX1k0ku2ezrc_9SrwEw/view?utm_content=DAG2PhaI6KQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd491eb30dd" target="_blank" rel="noopener">
+          <span class="lang-te">విశ్వాస ప్రమాణం</span><span class="lang-en">Promise Card</span>
+            </a>
+          </div>
+          <p class="muted small">The viewer will open "http://akkonline.joelnetwork.com/songs/&lt;number&gt;.html" in a popup.</p>
+        </form>
+
+        <!-- Modal popup for song page -->
+        <div id="songModal" class="song-modal" aria-hidden="true" style="display:none;">
+          <div class="song-modal-backdrop" id="songBackdrop"></div>
+          <div class="song-modal-dialog" role="dialog" aria-modal="true" aria-label="Song viewer"
+            style="max-width:900px;">
+            <div class="song-modal-header"
+              style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem;">
+              <strong id="songModalTitle">Song</strong>
+              <button id="songCloseBtn" class="btn" aria-label="Close">Close ✕</button>
+            </div>
+            <div class="song-modal-body" style="height:70vh;padding:0.5rem;">
+              <iframe id="songFrame" src="" title="Song page"
+                style="width:100%;height:100%;border:0;border-radius:6px;background:#fff"></iframe>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <aside class="songbook-photo">
+          <img src="songbook.webp" alt="Song book cover" />
+        </aside>
+      </div>
+    </section>
+
+    <section id="sermons" class="section container">
+      <h2><span class="lang-te">ప్రసంగాలు (లైవ్ & గత ప్రసారాలు)</span><span class="lang-en">Sermons (Live &
+          previous)</span></h2>
+      <p class="lang-te">తాజా లైవ్/స్ట్రీమ్ వీడియో కింద కనిపిస్తుంది. పక్కన గత వీడియోలను స్క్రోల్ చేసి ఎంచుకోండి.</p>
+      <p class="lang-en">The latest stream appears below. Browse previous videos on the right.</p>
+
+      <!-- Dynamic sermons UI -->
+      <div class="sermon-grid">
+        <div id="sermonMain" class="sermon-main">
+          <!-- JS will embed latest stream here -->
+        </div>
+        <aside>
+          <div class="sermon-thumbs" id="sermonThumbs" aria-label="Previous videos"></div>
+          <div style="margin-top:.5rem">
+            <a class="btn" href="https://www.youtube.com/@CABCKakinada/streams" target="_blank" rel="noopener">
+              <span class="lang-te">అన్ని లైవ్ వీడియోలు</span>
+              <span class="lang-en">All live videos</span>
+            </a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="events" class="section container">
+      <h2><span class="lang-te">ఈవెంట్స్ గ్యాలరీ</span><span class="lang-en">Events gallery</span></h2>
+      <p><span class="lang-te">ఇటీవల జరిగిన ఈవెంట్స్ మరియు కార్యకలాపాల ఫోటోలు. ప్రతి స్లయిడ్‌షోను నిలిపివేయడానికి క్లిక్
+          చేయండి లేదా హోవర్ చేయండి.</span><span class="lang-en">Photos from recent events and activities. Click or hover
+          to pause each slideshow.</span></p>
+
+      <div id="eventsGrid" class="events-grid">
+        <!-- Event cards will be rendered by JS. Example structure:
+            <article class="event-card" data-event-id="1">
+              <div class="event-slideshow" data-index="0">
+                <img src="..." />
+                <div class="photo-count">3 photos</div>
+              </div>
+              <div class="event-body">
+                <h3>Event title</h3>
+                <div class="event-meta">Category · 08 Oct 2025</div>
+              </div>
+            </article>
+          -->
+      </div>
+    </section>
+
+    <section id="calendar" class="section container">
+      <h2><span class="lang-te">నెలవారీ క్యాలెండర్</span><span class="lang-en">Monthly Calendar</span></h2>
+      <p><span class="lang-te">రాబోయే సేవలు, సమావేశాలు మరియు ఈవెంట్స్‌ను చూడండి.</span><span class="lang-en">See
+          upcoming services, meetings and events.</span></p>
+
+      <div class="calendar-row">
+        <div id="calendarWrap" class="calendar-wrap">
+          <div class="calendar-header">
+            <button id="prevMonth" class="btn">‹</button>
+            <h3 id="calendarMonth">Month Year</h3>
+            <button id="nextMonth" class="btn">›</button>
+          </div>
+          <div id="calendarGrid" class="calendar-grid" aria-label="Monthly calendar"></div>
+        </div>
+
+        <aside class="calendar-card" aria-labelledby="calendarNotesTitle">
+          <h2 id="calendarNotesTitle">
+            <span class="lang-te">నెలలో</span>
+            <span class="lang-en">In the month</span>
+          </h2>
+          <div class="calendar-notes">
+            <p><strong><span class="lang-te">1వ ఆదివారం :</span><span class="lang-en">1st Sunday :</span></strong>
+              <span class="lang-te">ప్రభురాత్రి సంస్కారం</span><span class="lang-en">Lord's evening service</span></p>
+
+            <p><strong><span class="lang-te">ప్రతి శుక్రవారం :</span><span class="lang-en">Every Friday :</span></strong>
+              <span class="lang-te">సంపూర్ణ ఉపవాస ప్రార్థన</span><span class="lang-en">Full fasting prayer</span></p>
+
+            <p><strong><span class="lang-te">3వ ఆదివారం :</span><span class="lang-en">3rd Sunday :</span></strong>
+              <span class="lang-te">సువార్త సునాధ యాత్ర మ॥ 3 గం॥లకు</span><span class="lang-en">Gospel outreach starting at 3:00 PM</span></p>
+
+            <p><strong><span class="lang-te">4వ ఆదివారం :</span><span class="lang-en">4th Sunday :</span></strong>
+              <span class="lang-te">ప్రత్యేక సువార్త కూటము సా॥ 6:30గం॥కు</span><span class="lang-en">Special gospel meeting at 6:30 PM</span></p>
+
+            <p><strong><span class="lang-te">ప్రతి సోమవారం నుండి శుక్రవారం వరకు :</span><span class="lang-en">Every Monday to Friday :</span></strong>
+              <span class="lang-te">ఉదయకాలపు ప్రార్థన ఉ॥ 6:30 గం॥కు</span><span class="lang-en">Morning prayer at 6:30 AM</span></p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="prayer" class="section container">
+      <h2><span class="lang-te">ప్రార్థన అభ్యర్థన</span><span class="lang-en">Prayer request</span></h2>
+      <p><span class="lang-te">ప్రార్థన అభ్యర్థనలను సమర్పించండి మరియు ప్రార్థన చైన్‌లలో చేరండి.</span><span
+          class="lang-en">Submit prayer requests and join prayer chains.</span></p>
+
+      <div class="prayer-columns">
+        <div class="prayer-left">
+          <h3><span class="lang-te">ప్రార్థన అభ్యర్థనను సమర్పించండి</span><span class="lang-en">Submit a prayer
+              request</span></h3>
+          <form id="prayerForm" class="prayer-form" onsubmit="return false;">
+            <label> <span class="lang-te">మీ పూర్తి పేరు</span><span class="lang-en">Name</span> <input id="prayerName"
+                placeholder="Your name (optional)" /></label>
+            <label><span class="lang-te">ప్రార్థన</span><span class="lang-en">Prayer</span> <textarea id="prayerText"
+                required placeholder="Write your prayer request"></textarea></label>
+            <label><input id="prayerAnon" type="checkbox" /> <span class="lang-te">గోప్యంగా పోస్ట్ చేయండి</span><span
+                class="lang-en">Post anonymously</span></label>
+            <div style="margin-top:0.5rem"><button id="prayerSubmit" class="btn primary"><span
+                  class="lang-te">సమర్పించండి</span><span class="lang-en">Submit</span></button></div>
+          </form>
+        </div>
+
+        <div class="prayer-right">
+          <h3><span class="lang-te">ప్రార్థన గోడ</span><span class="lang-en">Prayer wall</span></h3>
+          <div id="prayerWall" class="prayer-wall" aria-live="polite">
+            <!-- Requests appended here -->
+          </div>
+          <div style="margin-top:0.75rem;display:flex;gap:0.5rem">
+            <button id="exportPrayers" class="btn"><span class="lang-te">ప్రార్థనలను ఎగుమతి చేయండి</span><span
+                class="lang-en">Export Prayers</span></button>
+            <a href="https://drive.google.com/drive/folders/1YZ6M9QNb0MIaNq1-gRfuWJ-_4VcsXLPh?usp=share_link"
+              target="_blank" class="btn"><span class="lang-te">డ్రైవ్ ఫోల్డర్‌ను తెరవండి</span><span
+                class="lang-en">Open Drive Folder</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="memberships" class="section container">
+      <h2><span class="lang-te">సభ్యత్వాలు</span><span class="lang-en">Memberships</span></h2>
+      <p><span class="lang-te">సభ్యత్వం కోసం దరఖాస్తు చేసి మా చర్చి సమాజంలో చేరండి.</span><span class="lang-en">Join our
+          church community by applying for membership.</span></p>
+
+      <div class="membership-columns">
+        <div class="membership-left">
+          <h3><span class="lang-te">సభ్యత్వ దరఖాస్తు</span><span class="lang-en">Membership Application</span></h3>
+          <form id="membershipForm" enctype="multipart/form-data">
+            <div class="form-row">
+              <label><span class="lang-te">పూర్తి పేరు</span><span class="lang-en">Full Name</span> <input
+                  id="memberName" name="memberName" required /></label>
+              <label><span class="lang-te">జన్మతేదీ</span><span class="lang-en">Date of Birth</span> <input
+                  id="memberDob" name="memberDob" type="date" required /></label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">ఫోన్</span><span class="lang-en">Phone</span> <input id="memberPhone"
+                  name="memberPhone" type="tel" required /></label>
+              <label><span class="lang-te">ఇమెయిల్</span><span class="lang-en">Email</span> <input id="memberEmail"
+                  name="memberEmail" type="email" required /></label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">లింగం</span><span class="lang-en">Gender</span>
+                <select id="memberGender" name="memberGender" required>
+                  <option value="">Select...</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+              <label><span class="lang-te">వర్గం</span><span class="lang-en">Caste</span>
+                <select id="memberCaste" name="memberCaste" required>
+                  <option value="">Select...</option>
+                  <option value="OC">OC</option>
+                  <option value="BC-A">BC-A</option>
+                  <option value="BC-B">BC-B</option>
+                  <option value="BC-C">BC-C</option>
+                  <option value="BC-D">BC-D</option>
+                  <option value="BC-E">BC-E</option>
+                  <option value="SC">SC</option>
+                  <option value="ST">ST</option>
+                  <option value="Others">Others</option>
+                </select>
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">ఇక్కద/వికలాంగత</span><span class="lang-en">Disability</span>
+                <select id="memberDisability" name="memberDisability" required>
+                  <option value="">Select...</option>
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </label>
+              <label><span class="lang-te">వయస్సు</span><span class="lang-en">Age</span> <input id="memberAge" name="memberAge" type="number" min="0" required /></label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">ఏ/status</span><span class="lang-en">Marital Status</span>
+                <select id="memberMarital" name="memberMarital" required>
+                  <option value="">Select...</option>
+                  <option value="single">Single</option>
+                  <option value="married">Married</option>
+                  <option value="widowed">Widowed</option>
+                  <option value="divorced">Divorced</option>
+                </select>
+              </label>
+              <!-- ...existing code... -->
+            </div>
+            <label><span class="lang-te">చిరునామా</span><span class="lang-en">Address</span> <textarea
+                id="memberAddress" name="memberAddress" rows="2" required></textarea></label>
+            <div class="form-row">
+              <label><span class="lang-te">బాప్తిస్మం పొందారా?</span><span class="lang-en">Baptized?</span> <select
+                  id="memberBaptized" name="memberBaptized" required>
+                  <option value=""><span class="lang-te">ఎంచుకోండి...</span><span class="lang-en">Select...</span>
+                  </option>
+                  <option value="yes"><span class="lang-te">అవును</span><span class="lang-en">Yes</span></option>
+                  <option value="no"><span class="lang-te">కాదు</span><span class="lang-en">No</span></option>
+                </select></label>
+              <label><span class="lang-te">మునుపటి చర్చి (ఉంటే)</span><span class="lang-en">Previous Church (if
+                  any)</span> <input id="memberPrevChurch" name="memberPrevChurch" /></label>
+            </div>
+            <label><span class="lang-te">మీరు మా చర్చి చేరాలనుకుంటున్న కారణం ఏమిటి?</span><span class="lang-en">Why do
+                you want to join our church?</span> <textarea id="memberWhy" name="memberWhy" rows="3"
+                required></textarea></label>
+
+            <div class="form-row">
+              <label><span class="lang-te">పుట్టిన స్థలం</span><span class="lang-en">Birth Place</span> <input id="memberBirthPlace" name="memberBirthPlace" /></label>
+              <label><span class="lang-te">రక్త దానం గ్రూప్</span><span class="lang-en">Blood Group</span>
+                <select id="memberBloodGroup" name="memberBloodGroup">
+                  <option value="">Select...</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <label><span class="lang-te">క్రైస్తవుడు (జన్మతో/మార్పిడి)</span><span class="lang-en">Christian (By birth / Converted)</span>
+                <select id="memberChristianStatus" name="memberChristianStatus">
+                  <option value="">Select...</option>
+                  <option value="by_birth">By birth</option>
+                  <option value="converted">Converted</option>
+                </select>
+              </label>
+              <label><span class="lang-te">బాప్తిస్మం పాస్టర్ & సంవత్సరం</span><span class="lang-en">Baptism Pastor & Year</span>
+                <input id="memberBaptismPastor" name="memberBaptismPastor" placeholder="Pastor name" />
+                <input id="memberBaptismYear" name="memberBaptismYear" type="number" min="1800" max="2099" placeholder="Year" style="max-width:120px;margin-left:0.5rem" />
+              </label>
+            </div>
+
+            <label><span class="lang-te">అధ్యయన / విద్యా అర్హతలు</span><span class="lang-en">Educational Qualifications</span> <textarea id="memberEducation" name="memberEducation" rows="2"></textarea></label>
+            <label><span class="lang-te">ఇతర అర్హతలు</span><span class="lang-en">Other Qualifications</span> <textarea id="memberOtherQualifications" name="memberOtherQualifications" rows="2"></textarea></label>
+
+            <div class="form-row">
+              <label><span class="lang-te">వృత్తి / ఉద్యోగం</span><span class="lang-en">Occupation</span> <input id="memberOccupation" name="memberOccupation" /></label>
+              <label><span class="lang-te">Aadhar నంబర్</span><span class="lang-en">Aadhar Number</span> <input id="memberAadhar" name="memberAadhar" type="text" inputmode="numeric" /></label>
+            </div>
+
+            <div class="form-row">
+              <label><span class="lang-te">తండ్రి పేరు / వృత్తి</span><span class="lang-en">Father's Name / Occupation</span>
+                <input id="memberFatherName" name="memberFatherName" placeholder="Name" />
+                <input id="memberFatherOcc" name="memberFatherOcc" placeholder="Occupation" style="margin-left:0.5rem" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">తల్లి పేరు / వృత్తి</span><span class="lang-en">Mother's Name / Occupation</span>
+                <input id="memberMotherName" name="memberMotherName" placeholder="Name" />
+                <input id="memberMotherOcc" name="memberMotherOcc" placeholder="Occupation" style="margin-left:0.5rem" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">భర్త / భార్య పేరు / వృత్తి</span><span class="lang-en">Husband / Wife Name / Occupation</span>
+                <input id="memberSpouseName" name="memberSpouseName" placeholder="Name" />
+                <input id="memberSpouseOcc" name="memberSpouseOcc" placeholder="Occupation" style="margin-left:0.5rem" />
+              </label>
+            </div>
+
+            <div style="margin-top:0.5rem;border:1px dashed rgba(15,23,42,0.06);padding:0.5rem;border-radius:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
+                <strong><span class="lang-te">మంచి వివరాలు</span><span class="lang-en">Children Details</span></strong>
+                <button type="button" id="addChildBtn" class="btn"> <span class="lang-te">పిల్లలను జోడించండి</span><span class="lang-en">Add Child</span></button>
+              </div>
+              <div class="children-scroll">
+                <table id="childrenTable" style="width:100%;border-collapse:collapse">
+                  <thead>
+                    <tr>
+                      <th style="width:40px">S.No</th>
+                      <th>Son/Daughter Name</th>
+                      <th style="width:120px">Phone</th>
+                      <th style="width:60px">Age</th>
+                      <th>Educational Qualifications / Occupation</th>
+                      <th>Address</th>
+                      <th style="width:48px"> </th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+
+            <label for="memberSignature"><span class="lang-te">డిజిటల్ సంతకం (ఫైల్)</span><span class="lang-en">Digital Signature (file)</span></label>
+            <input type="file" id="memberSignature" name="memberSignature" accept="image/*,application/pdf" />
+
+            <label><span class="lang-te">ప్రకటన</span><span class="lang-en">Declaration</span> <textarea id="memberDeclaration" name="memberDeclaration" rows="3">I hereby declare that the information provided is true to the best of my knowledge.</textarea></label>
+            <div class="form-row">
+              <label><span class="lang-te">తేదీ</span><span class="lang-en">Date</span> <input id="memberDeclarationDate" name="memberDeclarationDate" type="date" /></label>
+              <label><span class="lang-te">స్థలం</span><span class="lang-en">Place</span> <input id="memberDeclarationPlace" name="memberDeclarationPlace" value="Jaganniackpur, Kakinada" /></label>
+            </div>
+
+            <label for="familyPhoto"><span class="lang-te">కుటుంబ ఫోటోని అప్‌లోడ్ చేయండి:</span><span
+                class="lang-en">Upload Family Photo:</span></label>
+            <input type="file" id="familyPhoto" name="familyPhoto" accept="image/*">
+            <div class="form-actions">
+              <button type="submit" class="btn primary"><span class="lang-te">అప్లికేషన్ సమర్పించండి</span><span
+                  class="lang-en">Submit Application</span></button>
+            </div>
+          </form>
+          <div id="membershipAck"></div>
+        </div>
+
+        <div class="membership-right">
+          <div class="rules-download">
+            <h3> <span class="lang-te">చర్చ్ నియమాల పుస్తకం</span><span class="lang-en">Church Rule Book</span></h3>
+            <p> <span class="lang-te">దయచేసి మా చర్చ్ నియమాలు మరియు మార్గదర్శకాలను చదవండి.</span><span
+                class="lang-en">Please read our church rules and guidelines before applying.</span></p>
+            <a href="downloads/church_rules.pdf" class="btn" download>
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                </path>
+              </svg>
+              <span class="lang-te">నియమాల పుస్తకం డౌన్లోడ్ చేయండి</span><span class="lang-en">Download Rule Book</span>
+            </a>
+          </div>
+          <div style="margin-top:0.75rem">
+            <button id="exportMemberships" class="btn"> <span class="lang-te">సభ్యత్వాలను డ్రైవ్‌కు ఎగుమతి
+                చేయండి</span><span class="lang-en">Export Memberships to Drive</span></button>
+          </div>
+
+          <div style="margin-top:0.5rem;display:flex;gap:0.5rem;flex-wrap:wrap">
+            <a href="/Membership_application.pdf" class="btn" download>
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                </path>
+              </svg>
+              <span class="lang-te">సభ్యత్వ దరఖాస్తు ఫారమ్ డౌన్లోడ్ చేయండి</span><span class="lang-en">Download Membership Application</span>
+            </a>
+
+            <a href="/Baptism_application.pdf" class="btn" download>
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                </path>
+              </svg>
+              <span class="lang-te">బాప్తిస్మ దరఖాస్తు ఫారమ్ డౌన్లోడ్ చేయండి</span><span class="lang-en">Download Baptism Application</span>
+            </a>
+          </div>
+
+          <!-- Removed: Know more button from here (moved to History section) -->
+        </div>
+      </div>
+    </section>
+
+    <section id="fellowships" class="section container">
+      <h2> <span class="lang-te">సహకారాలు</span><span class="lang-en">Fellowships</span></h2>
+      <p> <span class="lang-te">మా వివిధ సహకార సమూహాలలో చేరండి మరియు విశ్వాసంలో కలిసి ఎదగండి.</span><span
+          class="lang-en">Join our various fellowship groups and grow together in faith.</span></p>
+
+      <div class="fellowship-grid">
+        <div class="fellowship-card">
+          <div class="fellowship-icon">👥</div>
+          <h3><span class="lang-te">చర్చ్ కౌన్సిల్</span><span class="lang-en">Church Council</span></h3>
+          <p><span class="lang-te">మా చర్చ్ నాయకత్వం మరియు పాలన శ్రేణి, మా సమాజాన్ని మార్గనిర్దేశం చేయడానికి నియమితంగా
+              సమావేశమవుతుంది.</span><span class="lang-en">Our church leadership and governance body that meets regularly
+              to guide our community.</span></p>
+          <a class="btn" href="fellowships/council.html"><span class="lang-te">మరింత తెలుసుకోండి</span><span
+              class="lang-en">Know More</span></a>
+        </div>
+
+        <div class="fellowship-card">
+          <div class="fellowship-icon">👩</div>
+          <h3><span class="lang-te">మహిళల సహకారం</span><span class="lang-en">Women's Fellowship</span></h3>
+          <p><span class="lang-te">ప్రార్థన, అధ్యయనం మరియు సేవ ద్వారా ఒకదానిని ఒకరు మద్దతు ఇచ్చే మహిళల ఉత్సాహభరిత
+              సమూహం.</span><span class="lang-en">A vibrant community of women supporting each other through prayer,
+              study, and service.</span></p>
+          <a class="btn" href="fellowships/womens.html"><span class="lang-te">మరింత తెలుసుకోండి</span><span
+              class="lang-en">Know More</span></a>
+        </div>
+
+        <div class="fellowship-card">
+          <div class="fellowship-icon">🌟</div>
+          <h3><span class="lang-te">యువ సమూహం</span><span class="lang-en">Youth Group</span></h3>
+          <p><span class="lang-te">యువుల విశ్వాసం, వినోదం మరియు సహకారాన్ని పంచుకునే డైనమిక్ సమావేశం.</span><span
+              class="lang-en">Dynamic gathering of young people sharing faith, fun, and fellowship together.</span></p>
+          <a class="btn" href="fellowships/youth.html"><span class="lang-te">మరింత తెలుసుకోండి</span><span
+              class="lang-en">Know More</span></a>
+        </div>
+
+        <div class="fellowship-card">
+          <div class="fellowship-icon">🎵</div>
+          <h3><span class="lang-te">క్వయిర్ గ్రూప్</span><span class="lang-en">Choir Group</span></h3>
+          <p><span class="lang-te">సంగీతం మరియు గీతం ద్వారా ఆరాధన, మా సేవలు మరియు ప్రత్యేక కార్యక్రమాలలో సేవ
+              చేయడం.</span><span class="lang-en">Worship through music and song, serving in our services and special
+              events.</span></p>
+          <a class="btn" href="fellowships/choir.html"><span class="lang-te">మరింత తెలుసుకోండి</span><span
+              class="lang-en">Know More</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="outreach" class="section container">
+      <h2><span class="lang-te">సేవా కార్యక్రమాలు</span><span class="lang-en">Outreach Programs</span></h2>
+      <p><span class="lang-te">మా మిషన్లు మరియు సమాజ సేవా కార్యక్రమాలు అవసరమైన వారికి చేరుకుంటున్నాయి.</span><span
+          class="lang-en">Our missions and community service programs reaching those in need.</span></p>
+
+      <div id="outreachSlideshow" class="outreach-slideshow">
+        <div class="slide active">
+          <img src="outreach/mission1.jpg" alt="Mission outreach" />
+          <div class="slide-caption">
+            <h3><span class="lang-te">మిషన్ అవుట్రిచ్</span><span class="lang-en">Mission Outreach</span></h3>
+            <p><span class="lang-te">చికిత్సా శిబిరాలు మరియు విద్య ద్వారా సమాజాలను సేవ చేయడం.</span><span
+                class="lang-en">Serving communities through medical camps and education.</span></p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="outreach/food1.jpg" alt="Food distribution" />
+          <div class="slide-caption">
+            <h3><span class="lang-te">ఆహార పంపిణీ</span><span class="lang-en">Food Distribution</span></h3>
+            <p><span class="lang-te">అవసరమైన వారికి వారానికి ఒకసారి ఆహార కార్యక్రమం.</span><span class="lang-en">Weekly
+                food program for those in need.</span></p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="outreach/edu1.jpg" alt="Education support" />
+          <div class="slide-caption">
+            <h3><span class="lang-te">విద్యా మద్దతు</span><span class="lang-en">Education Support</span></h3>
+            <p><span class="lang-te">అవసరమైన విద్యార్థులకు స్కాలర్‌షిప్‌లు మరియు ట్యుటరింగ్.</span><span
+                class="lang-en">Scholarships and tutoring for underprivileged students.</span></p>
+          </div>
+        </div>
+        <div class="slide-nav">
+          <button class="prev">‹</button>
+          <div class="slide-dots"></div>
+          <button class="next">›</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="donations" class="section container">
+      <h2><span class="lang-te">కానుకలు</span><span class="lang-en">Donations</span></h2>
+      <p><span class="lang-te">చర్చిని మద్దతు ఇవ్వండి - రెగ్యులర్ లేదా నెలవారీ కానుకలు ఎంచుకోండి.</span><span
+          class="lang-en">Support the church — choose Regular or Recurring giving.</span></p>
+
+      <div class="donation-cards">
+        <div class="card">
+          <h3><span class="lang-te">రెగ్యులర్ కానుకలు</span><span class="lang-en">Regular Donation</span></h3>
+          <p><span class="lang-te">ప్రాజెక్టులు మరియు మంత్రిత్వాలను మద్దతు ఇవ్వడానికి ఒకసారి బహుమతులు.</span><span
+              class="lang-en">One-time gifts to support projects and ministries.</span></p>
+          <div class="donation-amounts">
+            <button class="amt">₹10</button>
+            <button class="amt">₹25</button>
+            <button class="amt">₹50</button>
+          </div>
+          <button class="btn primary">Give once</button>
+        </div>
+
+        <div class="card">
+          <h3><span class="lang-te">నెలవారీ కానుకలు</span><span class="lang-en">Recurring Donation</span></h3>
+          <p><span class="lang-te">ఒక నెలవారీ బహుమతి (ప్రతి నెల) ఏర్పాటు చేయండి.</span><span class="lang-en">Set up a
+              recurring gift (monthly).</span></p>
+          <label class="switch"><input id="recurring" type="checkbox" /><span class="slider"></span></label>
+          <button class="btn"> <span class="lang-te">నెలవారీ ఏర్పాటు చేయండి</span><span class="lang-en">Set up
+              recurring</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section container contact-section">
+
+      <div class="contact-wrap">
+        <div class="contact-left">
+          <h2><span class="lang-te">మమ్మల్ని సంప్రదించండి</span><span class="lang-en">Contact us</span></h2>
+          <p><span class="lang-te">చిరునామా, ఫోన్, ఇమెయిల్, సామాజిక లింకులు మరియు ఒక సంప్రదింపు ఫారం.</span><span
+              class="lang-en">Address, phone, email, social links and a contact form.</span></p>
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Form submitted (demo)')">
+            <label><span class="lang-te">పేరు</span><span class="lang-en">Name</span> <input required /></label>
+            <label><span class="lang-te">ఇమెయిల్</span><span class="lang-en">Email</span> <input type="email"
+                required /></label>
+            <label><span class="lang-te">సందేశం</span><span class="lang-en">Message</span> <textarea
+                required></textarea></label>
+            <button class="btn primary" type="submit">Send</button>
+          </form>
+        </div>
+
+        <div class="contact-right">
+          <h2><span class="lang-te">మమ్మల్ని కనుగొనండి</span><span class="lang-en">Find us</span></h2>
+          <div class="map-wrap">
+            <!-- Map: clicking opens the maps.app link provided -->
+            <a href="https://maps.app.goo.gl/yc66TZ1E7U3P6Vjq6" target="_blank" rel="noopener noreferrer">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d954.1776195931478!2d82.2354192!3d16.9395678!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3827e836bf11f3%3A0x5e5e24e6e25915b1!2sCentenary%20Andhra%20Baptist%20Church!5e0!3m2!1sen!2sin!4v1760121788495!5m2!1sen!2sin"
+                frameborder="0" style="width:100%;height:220px;border:0;border-radius:8px"></iframe>
+            </a>
+          </div>
+          <div class="social-links" aria-label="Social links">
+            <a class="social-link" href="/Users/naveenchitturi/Downloads/CABC/facebook-square-icon.svg" target="_blank"
+              rel="noopener" title="Facebook">
+              <img class="social-icon" src="facebook-square-icon.svg" alt="Facebook" width="20" height="20" />
+            </a>
+            <a class="social-link" href="https://www.instagram.com/cab_church_kakinada/" target="_blank" rel="noopener"
+              title="Instagram">
+              <img class="social-icon" src="ig-instagram-icon.svg" alt="Instagram" width="20" height="20" />
+            </a>
+            <a class="social-link" href="https://www.youtube.com/@CABCKakinada" target="_blank" rel="noopener"
+              title="YouTube">
+              <img class="social-icon" src="youtube-app-icon.svg" alt="YouTube" width="20" height="20" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Promise Card full-screen modal -->
+  <div id="promiseModal" class="promise-modal" aria-hidden="true" role="dialog" aria-label="Promise Card viewer" style="display:none;">
+    <div class="promise-backdrop" id="promiseBackdrop"></div>
+    <div class="promise-dialog" role="document">
+      <button id="promiseCloseBtn" class="promise-close" aria-label="Close Promise Card">✕</button>
+      <img id="promiseImg" src="PromiseCard.jpg" alt="Promise Card" />
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> CABC Church — Template</p>
+    </div>
+  </footer>
+
+  <!-- Removed PDF.js (no longer used) -->
+  <!-- main JS (handles membership submission and other front-end behaviour) -->
+  <script src="js/main.js"></script>
+  <noscript>
+    <a href="#top" class="scroll-top-btn">↑</a>
+  </noscript>
+</body>
+
+</html>
