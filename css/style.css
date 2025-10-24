@@ -1,0 +1,436 @@
+:root{
+  --bg:#f7fafc;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent1:#60a5fa;
+  --accent2:#7c3aed;
+  --primary:#2563eb;
+  --glass: rgba(255,255,255,0.6);
+  --header-h: 72px;
+}
+.lang-te{display:inline}
+.lang-en{display:none}
+html[data-lang="en"] .lang-te{display:none !important}
+html[data-lang="en"] .lang-en{display:inline !important}
+.hidden{display:none !important}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Poppins, Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(180deg,#fbfdff,#f4f7fb); color:#0f172a; -webkit-font-smoothing:antialiased}
+/* Make all media fluid by default */
+img, video, iframe{max-width:100%;height:auto}
+/* offset main content for fixed header */
+body{
+  padding-top: var(--header-h);
+}
+.container{max-width:1100px;margin:0 auto;padding:1rem}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.header-inner{display:flex;align-items:center;gap:1rem;padding:1rem}
+.brand{margin:0;font-size:1.25rem;font-weight:700;color:var(--primary)}
+.nav{display:flex;gap:0.5rem;margin-left:auto}
+.nav a{color:var(--muted);text-decoration:none;padding:0.5rem;border-radius:6px;position:relative}
+
+/* Dropdown nav */
+.nav-item.dropdown{position:relative;display:flex;align-items:center}
+.dropdown-toggle{background:transparent;border:none;padding:0.35rem 0.6rem;border-radius:6px;color:var(--muted);cursor:pointer}
+.dropdown-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:180px;background:var(--card);box-shadow:0 8px 24px rgba(2,6,23,0.12);border-radius:8px;padding:0.5rem;display:none;flex-direction:column;z-index:120;opacity:0;transform:translateY(-6px);transition:opacity .2s ease, transform .2s ease}
+.dropdown-menu a{display:block;padding:0.5rem 0.6rem;color:var(--muted);text-decoration:none;border-radius:6px}
+.dropdown-menu a:hover{background:rgba(15,23,42,0.04)}
+.nav-item.dropdown:hover .dropdown-menu{display:flex;opacity:1;transform:none}
+/* JS-driven open state on mobile */
+.dropdown-menu.open{display:flex;opacity:1;transform:none}
+
+/* Mobile: ensure dropdown opens on click via JS; remove hover behaviour on small screens */
+@media (max-width:900px){
+  .nav-item.dropdown:hover .dropdown-menu{display:none}
+}
+.nav a::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:3px;background:linear-gradient(90deg,var(--accent1),var(--accent2));opacity:0;transform:translateY(4px);transition:all .25s}
+.nav a:hover::after{opacity:1;transform:translateY(0)}
+.menu-toggle{display:none}
+
+.hero{padding:2rem 0;position:relative;/* allow video to be visible behind content */overflow:visible;min-height:420px}
+.hero-inner{display:grid;grid-template-columns:1fr 420px;gap:1.5rem;align-items:center;position:relative;z-index:2}
+.video-bg{position:absolute;left:0;top:0;right:0;bottom:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;display:block}
+.hero .container{position:relative;z-index:3}
+.hero-image img{width:100%;height:420px;object-fit:cover;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.12)}
+.hero-right{display:flex;align-items:center;justify-content:center}
+.hero-card{width:100%;max-width:420px;background:linear-gradient(180deg,rgba(255,255,255,0.8),var(--glass));padding:1.25rem;border-radius:14px;box-shadow:0 10px 30px rgba(2,6,23,0.08);position:relative;overflow:visible;border:1px solid rgba(255,255,255,0.6)}
+.hero-card h2{margin:0 0 0.25rem}
+.muted{color:var(--muted);margin:0 0 1rem}
+
+.polymorph-wrap{position:relative;height:260px;border-radius:12px;overflow:hidden}
+.polymorph{position:absolute;inset:0;width:100%;height:100%;transform:scale(1.05)}
+.timetable{position:absolute;inset:18px;z-index:2;color:rgb(0, 0, 0);display:flex;align-items:center}
+.timetable{
+  /* make font flexible to container/viewport */
+  font-size: clamp(12px, min(1.6vw, 2.2vh), 16px);
+  line-height: 1.2;
+  /* better wrapping inside the constrained card */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+.timetable h3{
+  margin: 0 0 0.25rem;
+  font-size: clamp(13px, min(1.9vw, 2.6vh), 18px);
+  line-height: 1.15;
+}
+.timetable ul{
+  /* already reset padding/margin above; ensure tight layout */
+  margin: 0;
+  padding: 0;
+}
+.timetable li{
+  /* keep lines close to each other */
+  padding: 0.15rem 0;
+  line-height: 1.15;
+}
+.polymorph-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.0),rgba(0,0,0,0.25));z-index:1}
+.timetable ul{position:relative;z-index:2}
+.timetable ul{list-style:none;padding:0;margin:0}
+.timetable li{padding:0.35rem 0;font-weight:600}
+
+.hero-ctas{display:flex;gap:0.5rem;margin-top:1rem}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 0.95rem;border-radius:10px;border:1px solid rgba(15,23,42,0.06);background:white;color:var(--primary);text-decoration:none;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;min-height:40px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(2,6,23,0.08)}
+.btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;border:none}
+
+.section{padding:3rem 0;border-top:1px solid rgba(15,23,42,0.04)}
+.section h2{margin-top:0}
+.section{scroll-margin-top:110px}
+
+/* Debug/visibility: ensure the main history section is visible even if
+   reveal scripts do not run. This is intentionally specific and can be
+   removed once the root cause is diagnosed. */
+#history[data-reveal]{
+  opacity: 1 !important;
+  transform: none !important;
+  background: rgba(255,255,255,0.85);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* History two-column layout: text left, single photo on right */
+.history-row{display:block;margin-top:0.5rem}
+.history-text{flex:1}
+.history-entry{margin-bottom:0.75rem}
+.history-entry p{margin:0 0 0.4rem;color:var(--muted);line-height:1.35}
+.history-entry p:first-child{color:inherit;font-weight:400}
+.history-photo{margin-top:0.5rem}
+.history-photo img{width:100%;height:auto;border-radius:10px;display:block}
+
+@media(min-width:900px){
+  .history-row{display:flex;gap:1.5rem;align-items:flex-start}
+  .history-text{flex:1}
+  .history-photo{flex:0 0 320px}
+  .history-photo img{height:100%;object-fit:cover}
+}
+
+.history-entry .lang-en, .history-entry .lang-te{display:inline}
+.history-entry .lang-en{display:none}
+html[data-lang="en"] .history-entry .lang-te{display:none}
+html[data-lang="en"] .history-entry .lang-en{display:inline}
+
+/* Roadmap timeline for missionaries */
+.timeline-wrap{padding:0.5rem}
+.timeline{position:relative;padding:2rem 0}
+.timeline-line{position:absolute;left:20px;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--accent1),var(--accent2));border-radius:4px}
+.timeline-item{position:relative;padding:1rem 1rem 1rem 56px;margin-bottom:8px;display:flex;align-items:flex-start}
+.timeline-dot{position:absolute;left:12px;top:18px;width:16px;height:16px;background:white;border:4px solid var(--accent2);border-radius:50%;box-shadow:0 6px 14px rgba(2,6,23,0.08)}
+.timeline-content{background:transparent}
+.timeline-year{font-weight:700;color:var(--muted);font-size:0.9rem}
+.timeline-name{font-size:1rem;margin-top:0.25rem}
+
+@media(min-width:900px){
+  /* Horizontal timeline on wide screens */
+  .timeline{padding:2rem 1rem;height:140px}
+  .timeline-line{left:0;right:0;top:64px;height:4px;width:auto}
+  .timeline-item{width:auto;display:inline-block;vertical-align:top;text-align:left;padding:0 28px;position:relative;margin:0}
+  .timeline-item + .timeline-item{margin-left:18px}
+  .timeline-item .timeline-dot{left:50%;transform:translateX(-50%);top:52px}
+  .timeline-item .timeline-content{display:block;padding-top:10px}
+  .timeline-year{font-weight:700;color:var(--muted);font-size:0.9rem}
+  .timeline-name{font-size:0.95rem}
+}
+
+@media(max-width:899px){
+  /* stacked vertical timeline on small screens */
+  .timeline-line{left:20px}
+  .timeline-item{padding-left:56px}
+}
+
+/* SVG timeline text styles */
+.svg-timeline svg{font-family: Poppins, Arial, sans-serif}
+.svg-timeline .timeline-year{font-size:13px;fill:var(--muted);font-weight:600}
+.svg-timeline .timeline-name{font-size:14px;fill:var(--muted)}
+.svg-timeline .lang-en{display:none}
+html[data-lang="en"] .svg-timeline .lang-te{display:none}
+html[data-lang="en"] .svg-timeline .lang-en{display:inline}
+
+@media (max-width:600px){
+  .svg-timeline svg{height:300px}
+  .svg-timeline .timeline-name{font-size:12px}
+  /* allow multiline by increasing available svg height and using tspan if converted later */
+}
+
+/* Mobile fallback: hide SVG and show stacked list */
+@media (max-width:899px){
+  /* hide wide horizontal svg, show vertical svg */
+  .svg-timeline{display:none}
+  .svg-timeline-mobile{display:none}
+  .svg-timeline-vertical{display:block}
+  .svg-timeline-vertical svg{width:100%;height:auto}
+  .svg-timeline-vertical .timeline-name{font-size:14px;fill:var(--muted)}
+  .svg-timeline-vertical .timeline-year{font-size:13px;fill:var(--muted);font-weight:700}
+  .svg-timeline-vertical .lang-en{display:none}
+  html[data-lang="en"] .svg-timeline-vertical .lang-te{display:none}
+  html[data-lang="en"] .svg-timeline-vertical .lang-en{display:inline}
+}
+
+@media (min-width:900px){
+  .svg-timeline-mobile{display:none}
+}
+
+/* hide vertical SVG on desktop */
+@media (min-width:900px){
+  .svg-timeline-vertical{display:none}
+}
+
+.sermon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
+.sermon-card{background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(2,6,23,0.04);display:flex;flex-direction:column}
+.video-wrap{position:relative;padding-top:56.25%;background:#0b1220}
+.video-wrap iframe{position:absolute;left:0;top:0;width:100%;height:100%;border:0}
+.video-wrap.placeholder{display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:2rem}
+.sermon-meta{padding:0.75rem 1rem;border-top:1px solid rgba(15,23,42,0.04)}
+.sermon-meta .sermon-date{font-size:0.875rem;color:var(--muted)}
+.sermon-meta .sermon-pastor{font-weight:600;margin-top:0.25rem}
+.sermon-meta .sermon-topic{margin-top:0.25rem;color:var(--muted)}
+
+.pdf-viewer-section{margin-top:1rem}
+.pdf-goto-form{display:flex;flex-direction:column;gap:0.5rem;max-width:620px}
+.pdf-controls{display:flex;gap:0.5rem}
+.pdf-controls input[type="number"]{flex:1;padding:0.5rem;border-radius:8px;border:1px solid #e5e7eb}
+.pdf-viewer-container{margin-top:1rem;border-radius:8px;overflow:hidden;border:1px solid rgba(15,23,42,0.04)}
+.pdf-viewer-container iframe{width:100%;height:640px;border:0;display:block}
+
+/* Songbook: place visual on the right on larger screens, stacked on small screens */
+.songbook-row{display:block;margin-top:1rem;gap:24px;align-items:flex-start}
+.songbook-row .pdf-viewer-section{margin-top:0;flex:1 1 520px;order:1}
+.songbook-photo{margin-top:0;order:2}
+.songbook-photo img{width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,0.08)}
+
+@media (min-width:900px){
+  .songbook-row{display:flex}
+  .songbook-photo{flex:0 0 260px}
+  .songbook-row{align-items:flex-start}
+  .songbook-row .pdf-viewer-section{order:1}
+  .songbook-photo{order:2}
+}
+
+@media (max-width:900px){
+  .songbook-row{display:flex;flex-direction:column-reverse}
+  .songbook-photo{width:100%;order:1}
+  .songbook-row .pdf-viewer-section{order:2}
+}
+
+.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+.event-card{background:linear-gradient(180deg,rgba(255,255,255,0.92),var(--glass));border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(2,6,23,0.06);border:1px solid rgba(255,255,255,0.6)}
+.event-slideshow{position:relative;height:220px;background:#ddd;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.event-slideshow img{width:100%;height:100%;object-fit:cover;display:block}
+.event-slideshow .photo-count{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,0.5);color:white;padding:0.25rem 0.5rem;border-radius:6px;font-size:0.85rem}
+.event-body{padding:0.75rem}
+.event-body h3{margin:0 0 0.25rem}
+.event-meta{color:var(--muted);font-size:0.9rem}
+
+.calendar-wrap{max-width:720px;margin-top:1rem}
+.calendar-header{display:flex;align-items:center;gap:1rem}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:0.5rem}
+.calendar-grid .calendar-day{padding:10px;background:linear-gradient(180deg,#fff,#fbfbff);border-radius:8px;text-align:right;min-height:70px;position:relative;border:1px solid rgba(15,23,42,0.03)}
+.calendar-grid .calendar-day .date-num{font-weight:600}
+.calendar-grid .calendar-day.event{box-shadow:0 6px 18px rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.25)}
+.calendar-grid .calendar-day.event::after{content:'';position:absolute;left:8px;top:8px;width:10px;height:10px;border-radius:50%;background:#ef4444}
+
+/* Calendar row: calendar + notes card side-by-side */
+.calendar-row{display:block}
+
+@media (min-width:900px){
+  .calendar-row{display:flex;gap:1rem;align-items:flex-start}
+  .calendar-wrap{flex:1 1 60%;max-width:none;margin-top:0}
+  .calendar-card{flex:0 0 36%;background:var(--card);padding:1rem;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
+
+/* Scroll-to-top floating button */
+.scroll-top-btn{
+  position:fixed;
+  /* inset from corner to avoid feeling 'cornered' */
+  right:36px;
+  bottom:36px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,var(--accent1),var(--accent2));
+  color:white;border:none;box-shadow:0 8px 22px rgba(2,6,23,0.14);cursor:pointer;z-index:200;opacity:0;transform:translateY(12px);transition:opacity .2s,transform .2s
+}
+.scroll-top-btn.show{opacity:1;transform:translateY(0)}
+.scroll-top-btn svg{width:18px;height:18px;display:block}
+
+@media (max-width:480px){
+  /* slightly less inset on small screens so it's still reachable */
+  .scroll-top-btn{right:18px;bottom:18px;width:40px;height:40px}
+}
+}
+
+.calendar-card h2{margin:0 0 0.25rem;font-size:1.25rem}
+.calendar-notes p{margin:0 0.25rem 0 0;line-height:1.15}
+.calendar-notes p strong{font-weight:600;margin-right:0.25rem}
+.calendar-notes .lang-te,.calendar-notes .lang-en{display:inline}
+.calendar-notes .lang-en{display:none}
+html[data-lang="en"] .calendar-notes .lang-te{display:none}
+html[data-lang="en"] .calendar-notes .lang-en{display:inline}
+
+.prayer-columns{display:grid;grid-template-columns:1fr 360px;gap:1rem;margin-top:1rem}
+.prayer-left{background:var(--card);padding:1rem;border-radius:8px}
+.prayer-right{background:var(--card);padding:1rem;border-radius:8px}
+.prayer-wall{max-height:360px;overflow:auto;display:flex;flex-direction:column;gap:0.5rem}
+.prayer-item{padding:0.5rem;border-radius:6px;background:#f8fafc;border:1px solid rgba(15,23,42,0.03)}
+.prayer-item .meta{font-size:0.8rem;color:var(--muted)}
+
+
+.donation-cards{display:flex;gap:1rem;flex-wrap:wrap}
+.card{background:var(--card);padding:1rem;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.04);flex:1;min-width:240px}
+.donation-amounts{display:flex;gap:0.5rem;margin:0.5rem 0}
+.amt{background:#f3f4f6;border:1px solid rgba(15,23,42,0.04);padding:0.4rem 0.6rem;border-radius:8px;cursor:pointer}
+
+.contact-form{display:grid;gap:0.5rem;max-width:480px}
+.contact-form label{display:flex;flex-direction:column}
+.contact-form input,.contact-form textarea{padding:0.5rem;border-radius:8px;border:1px solid #e5e7eb}
+
+.site-footer{padding:2rem 0;color:var(--muted)}
+
+.membership-columns{display:grid;grid-template-columns:1fr 300px;gap:1.5rem;margin-top:1rem}
+.membership-left{background:var(--card);padding:1.5rem;border-radius:10px}
+.membership-right{background:var(--card);padding:1.5rem;border-radius:10px}
+.membership-form{display:flex;flex-direction:column;gap:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.membership-form label{display:flex;flex-direction:column;gap:0.25rem}
+.membership-form input,.membership-form textarea,.membership-form select{padding:0.5rem;border:1px solid #e5e7eb;border-radius:6px}
+.form-actions{margin-top:0.5rem}
+.rules-download{text-align:center}
+.rules-download .btn{display:inline-flex;align-items:center;gap:0.5rem}
+.rules-download svg{margin-right:0.25rem}
+
+.fellowship-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:1.5rem}
+.fellowship-card{background:var(--card);padding:1.5rem;border-radius:10px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.fellowship-icon{font-size:2rem;margin-bottom:0.5rem}
+.fellowship-card h3{margin:0 0 0.5rem}
+.fellowship-card p{margin:0 0 1rem;color:var(--muted)}
+.fellowship-card .btn{margin-top:auto}
+
+.outreach-slideshow{position:relative;margin-top:1.5rem;border-radius:10px;overflow:hidden;background:#111}
+.outreach-slideshow .slide{display:none;position:relative;transition:opacity .45s ease}
+.outreach-slideshow .slide.active{display:block;opacity:1}
+.outreach-slideshow img{width:100%;height:400px;object-fit:cover;display:block}
+.slide-caption{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(transparent,rgba(0,0,0,0.8));color:white}
+.slide-caption h3{margin:0 0 0.25rem}
+.slide-nav{position:absolute;bottom:1rem;left:0;right:0;display:flex;justify-content:center;gap:0.5rem;z-index:2}
+.slide-nav button{background:rgba(255,255,255,0.2);color:white;border:none;padding:0.5rem 1rem;border-radius:4px;cursor:pointer}
+.slide-nav button:hover{background:rgba(255,255,255,0.3)}
+.slide-dots{display:flex;gap:0.5rem;align-items:center}
+.slide-dots button{width:8px;height:8px;border-radius:50%;border:none;background:rgba(255,255,255,0.3);padding:0;cursor:pointer}
+.slide-dots button.active{background:white}
+
+/* Executive council cards */
+.council-card{background:var(--card);border-radius:10px;padding:1rem;box-shadow:0 8px 30px rgba(2,6,23,0.06);display:flex;gap:1rem;align-items:flex-start}
+.council-card .photo{flex:0 0 140px}
+.council-card .photo img{width:140px;height:140px;object-fit:cover;border-radius:8px;display:block}
+.council-card .info{flex:1}
+.council-card h4{margin:0 0 0.25rem}
+.council-card .meta{font-size:0.9rem;color:var(--muted);margin-bottom:0.5rem}
+.council-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+
+/* Church Members directory */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.member-card{background:var(--card);padding:0.75rem;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,0.04);display:flex;gap:0.75rem;align-items:flex-start}
+.member-card .m-photo{flex:0 0 72px}
+.member-card .m-photo img{width:72px;height:72px;border-radius:6px;object-fit:cover}
+.member-card .m-info{flex:1}
+.member-card h5{margin:0 0 0.25rem;font-size:1rem}
+.member-card .m-meta{font-size:0.85rem;color:var(--muted)}
+
+/* small screens */
+@media (max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-image img{height:260px}
+  /* Mobile nav as slide-down panel */
+  .nav{
+    display:flex;
+    position:absolute; top:var(--header-h); left:0; right:0;
+    background:#fff; flex-direction:column; padding:0.5rem 1rem;
+    border-bottom:1px solid rgba(15,23,42,0.06);
+    z-index:150;
+    max-height:0; overflow:hidden;
+    opacity:0; transform:translateY(-6px);
+    transition:max-height .25s ease, opacity .2s ease, transform .2s ease;
+    box-shadow:0 6px 18px rgba(2,6,23,0.06);
+  }
+  .nav.nav-open{ max-height:80vh; opacity:1; transform:none }
+  .nav a{padding:0.6rem 0}
+  .dropdown-menu{position:static; box-shadow:none; padding:0.25rem 0}
+  .menu-toggle{display:block;margin-left:auto}
+  .sermon-grid{grid-template-columns:1fr}
+  .membership-columns{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .container{padding:0.75rem}
+  .hero{min-height:360px}
+  /* Stack prayer form and wall vertically on mobile */
+  .prayer-columns{grid-template-columns:1fr}
+  /* Align rule book card left on mobile */
+  .rules-download{text-align:left}
+}
+
+/* Additional mobile refinements */
+@media (max-width:700px){
+  .events-grid{grid-template-columns:1fr}
+  .outreach-slideshow img{height:220px}
+  .pdf-viewer-container iframe{height:70vh}
+}
+
+/* Calendar usability on narrow screens */
+@media (max-width:640px){
+  .calendar-grid{gap:6px}
+  .calendar-grid .calendar-day{min-height:60px}
+}
+
+/* Typographic tweaks for very small screens */
+@media (max-width:480px){
+  body{font-size:16px; line-height:1.5}
+  .btn{min-height:44px}
+}
+@media (max-width:360px){
+  body{font-size:17px}
+}
+
+/* Children details table: make scrollable area on mobile */
+@media (max-width:900px){
+  .children-scroll{max-height:260px; overflow:auto; -webkit-overflow-scrolling:touch}
+  #childrenTable th, #childrenTable td{padding:6px; font-size:13px}
+  #childrenTable input{width:100%}
+}
+
+/* No global two-column layout for sections — keep sections stacked.
+   Internal containers (like .membership-columns, .fellowship-grid, .donation-cards)
+   control their own side-by-side layout using their existing grid/flex rules. */
+
+/* Reveal animations */
+[data-reveal]{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
+[data-reveal].revealed{opacity:1;transform:none}
+
+/* Promise Card full screen modal */
+.promise-modal{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center}
+.promise-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.75)}
+.promise-dialog{position:relative;max-width:1100px;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:1rem}
+.promise-dialog img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+.promise-close{position:absolute;right:18px;top:18px;z-index:160;background:rgba(255,255,255,0.9);border:0;border-radius:6px;padding:0.5rem 0.65rem;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(2,6,23,0.12)}
+
+@media (max-width:900px){
+  .promise-dialog{padding:0.5rem}
+  .promise-close{right:12px;top:12px}
+}

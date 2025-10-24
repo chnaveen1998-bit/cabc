@@ -1,0 +1,36 @@
+[
+  {
+    "ts": 123,
+    "name": "A",
+    "anon": false,
+    "text": "Test prayer"
+  },
+  {
+    "id": 1,
+    "ts": 1761295626,
+    "name": "Automated Test",
+    "anon": false,
+    "text": "Automated test prayer at 2025-10-24T14:17:05Z"
+  },
+  {
+    "id": 1,
+    "ts": 1761315561809,
+    "name": "Naveen",
+    "anon": false,
+    "text": "aksjlhs"
+  },
+  {
+    "id": 1,
+    "ts": 1761315617968,
+    "name": "Naveen",
+    "anon": true,
+    "text": "kasjdfhoiauwhfu"
+  },
+  {
+    "id": 1,
+    "ts": 1761319261557,
+    "name": "akshay",
+    "anon": false,
+    "text": "ajksdfhkajdhsf"
+  }
+]

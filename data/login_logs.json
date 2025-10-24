@@ -1,0 +1,100 @@
+[
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-23T17:46:26.677551Z",
+    "logout_time": null,
+    "duration_seconds": null
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-23T18:59:14.179181Z",
+    "logout_time": null,
+    "duration_seconds": null
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-23T19:08:28.385230Z",
+    "logout_time": "2025-10-23T19:08:40.985044Z",
+    "duration_seconds": 12
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-23T19:09:02.789952Z",
+    "logout_time": "2025-10-23T19:09:21.103241Z",
+    "duration_seconds": 18
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-23T19:09:37.114793Z",
+    "logout_time": "2025-10-23T19:20:56.197483Z",
+    "duration_seconds": 679
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-23T19:22:24.368333Z",
+    "logout_time": "2025-10-23T19:31:41.230050Z",
+    "duration_seconds": 556
+  },
+  {
+    "email": "dev-admin@example.com",
+    "name": "Dev Admin",
+    "login_time": "2025-10-23T19:35:35.052787Z",
+    "logout_time": null,
+    "duration_seconds": null
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-24T13:58:59.331149Z",
+    "logout_time": null,
+    "duration_seconds": null
+  },
+  {
+    "email": "dev-admin@example.com",
+    "name": "Dev Admin",
+    "login_time": "2025-10-24T14:00:29.587150Z",
+    "logout_time": "2025-10-24T14:27:42.950323Z",
+    "duration_seconds": 1633
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-24T14:30:57.933057Z",
+    "logout_time": null,
+    "duration_seconds": null
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-24T14:33:21.564726Z",
+    "logout_time": null,
+    "duration_seconds": null
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-24T14:33:21.776767Z",
+    "logout_time": "2025-10-24T14:59:32.938097Z",
+    "duration_seconds": 1571
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-24T14:59:48.776870Z",
+    "logout_time": "2025-10-24T15:23:39.143315Z",
+    "duration_seconds": 1430
+  },
+  {
+    "email": "admin@example.com",
+    "name": "admin@example.com",
+    "login_time": "2025-10-24T15:23:55.386565Z",
+    "logout_time": "2025-10-24T17:31:04.643570Z",
+    "duration_seconds": 7629
+  }
+]
