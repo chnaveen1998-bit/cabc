@@ -149,41 +149,58 @@
       overflow: hidden;
     }
 
-    .video-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      background: #000;
+    /* Ensure hero content stacks above the video and restore spacing/layout */
+    .container.hero-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 3rem 1rem;
+      min-height: 420px;
     }
 
-    /* Keep the SVG background behind and avoid clipping timetable content */
-    .polymorph-wrap {
-      position: relative;
+    /* Card styling so timetable and text are readable and not clipped */
+    .hero-card {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #0f172a;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 8px 30px rgba(2, 6, 23, 0.08);
       overflow: visible;
     }
 
-    .polymorph {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
+    /* Align right column inside hero (keeps layout similar to original) */
+    .hero-right {
+      flex: 1 1 auto;
+      display: flex;
+      justify-content: flex-end;
     }
 
-    .timetable {
-      position: relative;
-      z-index: 1;
-      padding: 1rem;
-      overflow: visible;
-    }
+    /* Make the polymorph decorative SVG less intrusive on small screens */
+    @media (max-width: 900px) {
+      .container.hero-inner {
+        padding: 2rem 0.75rem;
+        min-height: auto;
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-    .timetable ul {
-      margin: 0;
-      padding-left: 0;
-      list-style: none;
+      .hero-card {
+        padding: 0.9rem;
+        border-radius: 10px;
+      }
+
+      .polymorph {
+        display: none;
+      } /* reduces layout noise on small screens */
+
+      .timetable {
+        padding: .75rem;
+      }
     }
 
     /* Song modal + promise modal basic layering */
@@ -647,7 +664,7 @@
                 required placeholder="Write your prayer request"></textarea></label>
             <label><input id="prayerAnon" type="checkbox" /> <span class="lang-te">గోప్యంగా పోస్ట్ చేయండి</span><span
                 class="lang-en">Post anonymously</span></label>
-            <div style="margin-top:0.5rem"><button id="prayerSubmit" class="btn primary"><span
+            <div style="margin-top:0.5rem"><button id="prayerSubmit" class="btn primary"><span 
                   class="lang-te">సమర్పించండి</span><span class="lang-en">Submit</span></button></div>
           </form>
         </div>
