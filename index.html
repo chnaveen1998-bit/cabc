@@ -1094,7 +1094,7 @@
         });
       }
 
-      // Song popup: open https URL inside modal (avoids mixed-content). Graceful fallback link.
+      // Song popup: open http URL inside modal. Graceful fallback link.
       const goBtn = document.getElementById('goSong');
       const songInput = document.getElementById('songNumber');
       const songModal = document.getElementById('songModal');
@@ -1122,12 +1122,11 @@
         goBtn.addEventListener('click', () => {
           const n = parseInt((songInput && songInput.value || '').trim(), 10);
           if (!n || n < 1) { alert('Enter a valid song number'); return; }
-          // Prefer HTTPS to avoid mixed-content blocking. If the remote has no HTTPS, open in new tab fallback.
-          const httpsUrl = `https://akkonline.joelnetwork.com/songs/${n}.html`;
+          // Use HTTP per request to embed the song page.
+          const httpsUrl = `http://akkonline.joelnetwork.com/songs/${n}.html`;
           openSong(httpsUrl, `Song #${n}`);
 
-          // Fallback hint if content cannot be embedded (X-Frame-Options or no HTTPS)
-          // After a short delay show a small helper link (we can't detect cross-origin load reliably)
+          // Fallback hint if embedding is blocked by the remote or mixed content policy.
           setTimeout(() => {
             try {
               const hintId = 'songOpenExternalHint';
