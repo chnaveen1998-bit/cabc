@@ -1,80 +1,143 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .auth-wrap { min-height: 100dvh; display:flex; align-items:center; justify-content:center; padding:1.25rem; }
+    .card { width:100%; max-width: 420px; background:#fff; border-radius:12px; padding:1rem; box-shadow:0 8px 24px rgba(2,6,23,.08); }
+    .card h1 { margin:0 0 .5rem; font-size:1.25rem; }
+    .muted { color:#475569; font-size:.95rem; margin-bottom:1rem; }
+    form label { display:block; margin:.5rem 0; }
+    form input { width:100%; padding:.625rem .75rem; border-radius:8px; border:1px solid rgba(2,6,23,.12); }
+    .row { display:flex; gap:.5rem; }
+    .btn { display:inline-block; padding:.6rem .9rem; border-radius:8px; border:1px solid rgba(2,6,23,.16); background:#f8fafc; cursor:pointer; }
+    .btn.primary { background:#0ea5e9; color:#fff; border-color:#0284c7; }
+    .error { color:#b91c1c; margin:.5rem 0 0; font-size:.9rem; }
+    .ok { color:#047857; margin:.5rem 0 0; font-size:.9rem; }
+    .link { color:#0ea5e9; text-decoration:underline; cursor:pointer; font-size:.9rem; }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <h1 class="brand">
-        <a href="/" style="text-decoration:none;color:inherit">
-          <span class="lang-te">సీ.ఏ.బీ.సీ</span>
-          <span class="lang-en">C.A.B.C</span>
-        </a>
-      </h1>
+  <main class="auth-wrap">
+    <section class="card" role="dialog" aria-labelledby="authTitle" aria-modal="true">
+      <h1 id="authTitle">Admin</h1>
+      <p id="authDesc" class="muted">Sign in with your access code.</p>
 
-      <nav class="nav">
-        <a href="/index.html#songbook"><span class="lang-te">కీర్తనల పుస్తకం</span><span class="lang-en">Song Book</span></a>
-        <a href="/index.html#sermons"><span class="lang-te">ప్రసంగాలు</span><span class="lang-en">Sermons</span></a>
-        <a href="/index.html#events"><span class="lang-te">గ్యాలరీ</span><span class="lang-en">Gallery</span></a>
-        <a href="/index.html#calendar"><span class="lang-te">క్యాలెండర్</span><span class="lang-en">Calendar</span></a>
-        <a href="/index.html#prayer"><span class="lang-te">ప్రార్థనా వినతులు</span><span class="lang-en">Prayer Request</span></a>
-
-        <div class="nav-item dropdown">
-          <button class="dropdown-toggle btn shortcut" aria-haspopup="true" aria-expanded="false">
-            <span class="lang-te">నిర్వహణ</span>
-            <span class="lang-en">Admin</span>
-            <span class="caret" aria-hidden="true">▾</span>
-          </button>
-          <div class="dropdown-menu" role="menu">
-            <a role="menuitem" href="/pastor.html"><span class="lang-te">పాస్టర్</span><span class="lang-en">Pastor</span></a>
-            <a role="menuitem" href="/executive-council.html"><span class="lang-te">నిర్వాహక మండలి</span><span class="lang-en">Church Council</span></a>
-            <a role="menuitem" href="/general-body.html"><span class="lang-te">చర్చి సభ్యులు</span><span class="lang-en">Church Members</span></a>
-            <a role="menuitem" href="#" id="adminLoginLink"><span class="lang-te">ప్రశాసక లాగిన్</span><span class="lang-en">Admin Login</span></a>
-          </div>
+      <!-- First-time setup -->
+      <form id="setupForm" style="display:none" novalidate>
+        <label>Set access code
+          <input id="newCode" type="password" autocomplete="new-password" required minlength="4" placeholder="Enter new access code">
+        </label>
+        <label>Confirm access code
+          <input id="newCode2" type="password" autocomplete="new-password" required minlength="4" placeholder="Re-enter code">
+        </label>
+        <div class="row" style="margin-top:.5rem">
+          <button type="submit" class="btn primary">Save code</button>
+          <a href="index.html" class="btn">Cancel</a>
         </div>
-      </nav>
+        <div id="setupMsg" class="error" aria-live="polite"></div>
+      </form>
 
-      <!-- Language switch -->
-      <button id="langToggle" class="btn lang-switch" aria-label="Change language">
-        <span class="lang-te">English</span>
-        <span class="lang-en">తెలుగు</span>
-      </button>
+      <!-- Login -->
+      <form id="loginForm" style="display:none" novalidate>
+        <label>Access code
+          <input id="loginCode" type="password" autocomplete="current-password" required placeholder="Enter access code">
+        </label>
+        <div class="row" style="margin-top:.5rem">
+          <button type="submit" class="btn primary">Login</button>
+          <a href="index.html" class="btn">Back</a>
+        </div>
+        <div id="loginMsg" class="error" aria-live="polite"></div>
+        <p class="muted" style="margin-top:.75rem">
+          Forgot code? <span id="resetCode" class="link">Reset (clears saved code)</span>
+        </p>
+      </form>
+    </section>
+  </main>
 
-      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-    </div>
-  </header>
-
-  <div class="container" style="padding:2rem;max-width:800px">
-    <h1>Admin Dashboard</h1>
-    <div id="adminInfo">Checking login status...</div>
-    <div style="margin-top:1rem">
-      <button id="adminLogout" class="btn">Logout</button>
-      <a href="/" class="btn">Back to site</a>
-    </div>
-  </div>
   <script>
-    async function check(){
-      try{
-        const r = await fetch('/auth/me');
-        const j = await r.json();
-        const info = document.getElementById('adminInfo');
-        if(j && j.user){
-          info.innerHTML = '<p>Signed in as: <strong>' + (j.user.email || j.user.name || 'user') + '</strong></p>' + (j.user.admin ? '<p><em>Admin privileges</em></p>' : '');
-        }else{
-          info.innerHTML = '<p>You are not signed in. <a href="/">Return to site and sign in.</a></p>';
-        }
-      }catch(e){ document.getElementById('adminInfo').textContent = 'Unable to check login status'; }
-    }
-    document.getElementById('adminLogout').addEventListener('click', async ()=>{
-      await fetch('/auth/logout', {method:'POST'}).catch(()=>{});
-      window.location.href = '/';
+    // Helpers
+    const $ = sel => document.querySelector(sel);
+    const digest = async (text) => {
+      const enc = new TextEncoder().encode(text);
+      const buf = await crypto.subtle.digest('SHA-256', enc);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    };
+
+    const ADMIN_HASH_KEY = 'adminCodeHash';
+    const AUTH_KEY = 'adminAuth';
+    const AUTH_TS_KEY = 'adminAuthTime';
+    const AUTH_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
+
+    const hasCode = !!localStorage.getItem(ADMIN_HASH_KEY);
+    const setupForm = $('#setupForm');
+    const loginForm = $('#loginForm');
+
+    // Show correct form
+    setupForm.style.display = hasCode ? 'none' : 'block';
+    loginForm.style.display = hasCode ? 'block' : 'none';
+    $('#authTitle').textContent = hasCode ? 'Admin Login' : 'Set Admin Access Code';
+    $('#authDesc').textContent = hasCode
+      ? 'Enter your access code to continue.'
+      : 'Create an access code for admin area.';
+
+    // First-time setup handler
+    setupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = $('#newCode').value.trim();
+      const code2 = $('#newCode2').value.trim();
+      const msg = $('#setupMsg');
+      msg.textContent = '';
+      if (!code || code.length < 4) { msg.textContent = 'Code must be at least 4 characters.'; return; }
+      if (code !== code2) { msg.textContent = 'Codes do not match.'; return; }
+      const hash = await digest(code);
+      localStorage.setItem(ADMIN_HASH_KEY, hash);
+      // auto-auth and go to dashboard
+      localStorage.setItem(AUTH_KEY, '1');
+      localStorage.setItem(AUTH_TS_KEY, String(Date.now()));
+      location.href = 'dashboard.html';
     });
-    check();
+
+    // Login handler
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const entered = $('#loginCode').value.trim();
+      const msg = $('#loginMsg');
+      msg.textContent = '';
+      if (!entered) { msg.textContent = 'Enter your access code.'; return; }
+      try {
+        const hash = await digest(entered);
+        const saved = localStorage.getItem(ADMIN_HASH_KEY);
+        if (hash === saved) {
+          localStorage.setItem(AUTH_KEY, '1');
+          localStorage.setItem(AUTH_TS_KEY, String(Date.now()));
+          location.href = 'dashboard.html';
+        } else {
+          msg.textContent = 'Invalid code.';
+        }
+      } catch (err) {
+        msg.textContent = 'Login failed. Try again.';
+      }
+    });
+
+    // Reset code (clears saved code and session)
+    $('#resetCode').addEventListener('click', () => {
+      if (confirm('This will clear the saved access code and logout. Continue?')) {
+        localStorage.removeItem(ADMIN_HASH_KEY);
+        localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem(AUTH_TS_KEY);
+        location.reload();
+      }
+    });
+
+    // If already authenticated and session valid, go straight to dashboard
+    const ts = Number(localStorage.getItem(AUTH_TS_KEY) || 0);
+    if (localStorage.getItem(AUTH_KEY) === '1' && ts && (Date.now() - ts) < AUTH_TTL_MS) {
+      location.replace('dashboard.html');
+    }
   </script>
-  <script src="js/main.js"></script>
 </body>
 </html>
