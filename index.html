@@ -1094,7 +1094,7 @@
         });
       }
 
-      // Song popup: open http URL inside modal. Graceful fallback link.
+      // Song popup: open http URL inside modal. Graceful fallback link + mixed-content handling.
       const goBtn = document.getElementById('goSong');
       const songInput = document.getElementById('songNumber');
       const songModal = document.getElementById('songModal');
@@ -1105,6 +1105,9 @@
 
       function openSong(url, label) {
         if (!songModal || !songFrame) return;
+        // Ensure sandbox is permissive enough for most pages
+        songFrame.setAttribute('sandbox', 'allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation');
+        songFrame.srcdoc = ''; // clear any previous message
         songFrame.src = url;
         if (songTitle) songTitle.textContent = label || 'Song';
         songModal.style.display = 'block';
@@ -1113,6 +1116,7 @@
       function closeSong() {
         if (!songModal || !songFrame) return;
         songFrame.src = '';
+        songFrame.srcdoc = '';
         songModal.style.display = 'none';
         songModal.setAttribute('aria-hidden', 'true');
       }
@@ -1122,11 +1126,42 @@
         goBtn.addEventListener('click', () => {
           const n = parseInt((songInput && songInput.value || '').trim(), 10);
           if (!n || n < 1) { alert('Enter a valid song number'); return; }
-          // Use HTTP per request to embed the song page.
-          const httpsUrl = `http://akkonline.joelnetwork.com/songs/${n}.html`;
-          openSong(httpsUrl, `Song #${n}`);
 
-          // Fallback hint if embedding is blocked by the remote or mixed content policy.
+          const songUrl = `http://akkonline.joelnetwork.com/songs/${n}.html`;
+          const isMixedBlocked = location.protocol === 'https:' && songUrl.startsWith('http://');
+
+          if (isMixedBlocked) {
+            // On HTTPS sites, HTTP iframes are blocked. Show message and auto-open in a new tab.
+            const escUrl = songUrl.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+            if (songModal && songFrame) {
+              songModal.style.display = 'block';
+              songModal.setAttribute('aria-hidden', 'false');
+              if (songTitle) songTitle.textContent = `Song #${n}`;
+              songFrame.removeAttribute('src');
+              songFrame.setAttribute('sandbox', 'allow-popups allow-popups-to-escape-sandbox');
+              songFrame.srcdoc = `
+                <!doctype html><html><body style="margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial">
+                  <div style="padding:16px;line-height:1.4">
+                    <p><strong>Cannot display inside this page.</strong></p>
+                    <p>Your browser blocks HTTP pages inside HTTPS sites (mixed content).</p>
+                    <p>
+                      <a href="${escUrl}" target="_blank" rel="noopener" style="color:#0b5ed7;text-decoration:underline">
+                        Open Song #${n} in a new tab
+                      </a>
+                    </p>
+                  </div>
+                </body></html>
+              `;
+            }
+            // Also open immediately in a new tab for convenience.
+            window.open(songUrl, '_blank', 'noopener');
+            return;
+          }
+
+          // Try embedding normally (when site is served via http or local file)
+          openSong(songUrl, `Song #${n}`);
+
+          // Timed hint: if remote blocks framing, user still gets a quick link.
           setTimeout(() => {
             try {
               const hintId = 'songOpenExternalHint';
@@ -1141,7 +1176,7 @@
                 hint.style.padding = '6px 8px';
                 hint.style.borderRadius = '6px';
                 hint.style.fontSize = '12px';
-                hint.innerHTML = `If the song doesn't appear, <a href="${httpsUrl}" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">open in new tab</a>.`;
+                hint.innerHTML = `If the song doesn't appear, <a href="${songUrl}" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">open in new tab</a>.`;
                 const dlg = songModal.querySelector('.song-modal-dialog');
                 dlg && dlg.appendChild(hint);
               }
