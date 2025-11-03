@@ -340,7 +340,7 @@
   <main>
     <section class="hero">
       <!-- Background video: intro.mp4 should live next to index.html or update the src path -->
-      <video id="bgVideo" class="video-bg" playsinline muted preload="auto" autoplay loop aria-hidden="true">
+      <video id="bgVideo" class="video-bg" muted preload="auto" autoplay loop aria-hidden="true">
         <source src="intro.mp4" type="video/mp4" />
         <!-- fallback poster or message -->
         Your browser does not support the video tag.
@@ -678,7 +678,7 @@
             <button id="exportPrayers" class="btn"><span class="lang-te">ప్రార్థనలను ఎగుమతి చేయండి</span><span
                 class="lang-en">Export Prayers</span></button>
             <a href="https://drive.google.com/drive/folders/1YZ6M9QNb0MIaNq1-gRfuWJ-_4VcsXLPh?usp=share_link"
-              target="_blank" class="btn"><span class="lang-te">డ్రైవ్ ఫోల్డర్‌ను తెరవండి</span><span
+              target="_blank" rel="noopener" class="btn"><span class="lang-te">డ్రైవ్ ఫోల్డర్‌ను తెరవండి</span><span
                 class="lang-en">Open Drive Folder</span></a>
           </div>
         </div>
@@ -1021,7 +1021,13 @@
           <h3><span class="lang-te">నెలవారీ కానుకలు</span><span class="lang-en">Recurring Donation</span></h3>
           <p><span class="lang-te">ఒక నెలవారీ బహుమతి (ప్రతి నెల) ఏర్పాటు చేయండి.</span><span class="lang-en">Set up a
               recurring gift (monthly).</span></p>
-          <label class="switch"><input id="recurring" type="checkbox" /><span class="slider"></span></label>
+          <label class="switch">
+            <input id="recurring" type="checkbox" aria-label="Enable recurring donation" />
+            <span class="slider"></span>
+            <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
+              <span class="lang-te">నెలవారీ కానుకను ప్రారంభించండి</span><span class="lang-en">Enable recurring donation</span>
+            </span>
+          </label>
           <button class="btn"> <span class="lang-te">నెలవారీ ఏర్పాటు చేయండి</span><span class="lang-en">Set up
               recurring</span></button>
         </div>
