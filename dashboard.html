@@ -1,70 +1,70 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CABC — Admin Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
   <style>
-    .topbar { position:sticky; top:0; background:#0f172a; color:#fff; padding:.75rem 1rem; display:flex; align-items:center; justify-content:space-between; }
-    .btn { padding:.5rem .8rem; border-radius:8px; border:1px solid rgba(255,255,255,.2); background:#1e293b; color:#fff; cursor:pointer; }
-    .btn.logout { background:#ef4444; border-color:#dc2626; }
-    .wrap { padding:1rem; }
-    .card { background:#fff; border-radius:10px; padding:1rem; box-shadow:0 8px 24px rgba(2,6,23,.06); }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .wrap { max-width: 1000px; margin: 2rem auto; padding: 1rem; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
+    .card { background:#fff; border-radius:12px; padding:1rem; box-shadow:0 8px 30px rgba(2,6,23,.06); }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <strong>Admin Dashboard</strong>
-    <div>
-      <a href="index.html" class="btn" style="margin-right:.5rem">Home</a>
-      <button id="logoutBtn" class="btn logout" aria-label="Logout">Logout</button>
+  <div class="wrap">
+    <div class="topbar">
+      <h1 style="margin:0">Admin Dashboard</h1>
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
+
+    <div class="card">
+      <p>Welcome, admin@cabc.com.</p>
+      <ul>
+        <li><a href="./index.html#prayer">View Prayer Requests</a></li>
+        <li><a href="./index.html#memberships">View Membership Applications</a></li>
+        <li><a href="https://www.youtube.com/@CABCKakinada/streams" target="_blank" rel="noopener">YouTube Streams</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Enforce auth on dashboard
+    (function () {
+      if (!window.CABCAuth?.isLoggedIn()) {
+        location.replace('./index.html?auth=required');
+        return;
+      }
+      const btn = document.getElementById('logoutBtn');
+      btn?.addEventListener('click', () => {
+        window.CABCAuth.logout();
+        location.replace('./index.html');
+      });
+    })();
+  </script>
+</body>
+</html>
+      </button>
+
+      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="card">
-      <h2 style="margin-top:0">Welcome</h2>
-      <p>You’re signed in. Add your admin widgets here.</p>
-      <ul>
-        <li>Manage Prayer Requests</li>
-        <li>Export Memberships</li>
-        <li>Update Events/Gallery</li>
-      </ul>
-    </section>
-  </main>
+  <div class="container" style="padding:2rem;max-width:900px">
+    <h1>Admin Dashboard</h1>
+    <div id="adminInfo">Checking login status...</div>
 
-  <script>
-    const AUTH_KEY = 'adminAuth';
-    const AUTH_TS_KEY = 'adminAuthTime';
-    const AUTH_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
-
-    function isSessionValid() {
-      const authed = localStorage.getItem(AUTH_KEY) === '1';
-      const ts = Number(localStorage.getItem(AUTH_TS_KEY) || 0);
-      return authed && ts && (Date.now() - ts) < AUTH_TTL_MS;
-    }
-
-    // Guard route: redirect to login if not authenticated or expired
-    if (!isSessionValid()) {
-      localStorage.removeItem(AUTH_KEY);
-      localStorage.removeItem(AUTH_TS_KEY);
-      location.replace('admin.html');
-    } else {
-      // Refresh session time on page load
-      localStorage.setItem(AUTH_TS_KEY, String(Date.now()));
-    }
-
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem(AUTH_KEY);
-      localStorage.removeItem(AUTH_TS_KEY);
-      location.replace('index.html');
-    });
-  </script>
-  <noscript>Enable JavaScript to use the dashboard.</noscript>
-</body>
-</html>
+    <div class="admin-actions">
+      <a id="manageMemberships" href="/fellowships/choir.html">Manage Memberships</a>
+      <a id="viewUploads" href="/uploads">Uploads</a>
+      <button id="exportCsv">Export CSV</button>
+        <a id="balanceSheet" href="/storage/finance/balance-sheet.pdf">Balance sheet</a>
+        <a id="sermonSheet" href="/sermons">Sermon videos</a>
+      <button id="adminLogout" class="btn">Logout</button>
+      <button id="devLogin" class="btn" style="display:none;background:#f3f4f6">Dev Login</button>
+      <a href="/" class="btn">Back to site</a>
     </div>
   </div>
 

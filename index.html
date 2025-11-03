@@ -293,6 +293,79 @@
         min-height: 420px;
       }
     }
+
+    /* Timetable: ensure heading sits above the rest */
+    .timetable>h3 {
+      display: block;
+      margin: 0 0 .5rem;
+    }
+
+    .timetable ul {
+      display: block;
+    }
+
+    /* Login modal minimal styling */
+    .login-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      display: none;
+    }
+
+    .login-modal[aria-hidden="false"] {
+      display: block;
+    }
+
+    .login-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+    }
+
+    .login-dialog {
+      position: relative;
+      z-index: 1;
+      margin: 10vh auto;
+      max-width: 420px;
+      width: calc(100% - 2rem);
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .25);
+    }
+
+    .login-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .75rem 1rem;
+      border-bottom: 1px solid rgba(15, 23, 42, .08);
+    }
+
+    .login-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .login-body label {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+      font-size: .9rem;
+    }
+
+    .login-actions {
+      display: flex;
+      gap: .5rem;
+      margin-top: .5rem;
+    }
+
+    .login-error {
+      color: #b91c1c;
+      font-size: .85rem;
+      min-height: 1.2em;
+    }
   </style>
 </head>
 
@@ -1055,80 +1128,7 @@
           <h2><span class="lang-te">మమ్మల్ని కనుగొనండి</span><span class="lang-en">Find us</span></h2>
           <div class="map-wrap">
             <!-- Map: clicking opens the maps.app link provided -->
-            <a href="https://maps.app.goo.gl/yc66TZ1E7U3P6Vjq6" target="_blank" rel="noopener noreferrer">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d954.1776195931478!2d82.2354192!3d16.9395678!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3827e836bf11f3%3A0x5e5e24e6e25915b1!2sCentenary%20Andhra%20Baptist%20Church!5e0!3m2!1sen!2sin!4v1760121788495!5m2!1sen!2sin"
-                frameborder="0" style="width:100%;height:220px;border:0;border-radius:8px"></iframe>
-            </a>
-          </div>
-          <div class="social-links" aria-label="Social links">
-            <a class="social-link" href="/Users/naveenchitturi/Downloads/CABC/facebook-square-icon.svg" target="_blank"
-              rel="noopener" title="Facebook">
-              <img class="social-icon" src="facebook-square-icon.svg" alt="Facebook" width="20" height="20" />
-            </a>
-            <a class="social-link" href="https://www.instagram.com/cab_church_kakinada/" target="_blank" rel="noopener"
-              title="Instagram">
-              <img class="social-icon" src="ig-instagram-icon.svg" alt="Instagram" width="20" height="20" />
-            </a>
-            <a class="social-link" href="https://www.youtube.com/@CABCKakinada" target="_blank" rel="noopener"
-              title="YouTube">
-              <img class="social-icon" src="youtube-app-icon.svg" alt="YouTube" width="20" height="20" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Promise Card full-screen modal -->
-  <div id="promiseModal" class="promise-modal" aria-hidden="true" role="dialog" aria-label="Promise Card viewer" style="display:none;">
-    <div class="promise-backdrop" id="promiseBackdrop"></div>
-    <div class="promise-dialog" role="document">
-      <button id="promiseCloseBtn" class="promise-close" aria-label="Close Promise Card">✕</button>
-      <button id="rotatePromiseBtn" class="rotate-btn" aria-label="Rotate">⟳</button>
-      <img id="promiseImg" src="PromiseCard.jpg" alt="Promise Card" />
-    </div>
-  </div>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; <span id="year"></span> CABC Church — Template</p>
-    </div>
-  </footer>
-
-  <!-- Removed PDF.js (no longer used) -->
-  <!-- main JS (handles membership submission and other front-end behaviour) -->
-  <script src="js/main.js"></script>
-
-  <!-- Small inline fixes for song popup, promise rotate, hero video autoplay, and sermons fallback -->
-  <script>
-    (function () {
-      // Hero video: force autoplay if browser pauses it
-      const bg = document.getElementById('bgVideo');
-      if (bg) {
-        const tryPlay = () => bg.play().catch(() => {});
-        if (!bg.hasAttribute('autoplay')) bg.setAttribute('autoplay', '');
-        if (!bg.hasAttribute('loop')) bg.setAttribute('loop', '');
-        if (!bg.muted) bg.muted = true;
-        if (!bg.playsInline) bg.setAttribute('playsinline', '');
-        bg.addEventListener('canplay', tryPlay, { once: true });
-        document.addEventListener('visibilitychange', () => {
-          if (!document.hidden) tryPlay();
-        });
-      }
-
-      // Song popup: open http URL inside modal. Graceful fallback link + mixed-content handling.
-      const goBtn = document.getElementById('goSong');
-      const songInput = document.getElementById('songNumber');
-      const songModal = document.getElementById('songModal');
-      const songBackdrop = document.getElementById('songBackdrop');
-      const songCloseBtn = document.getElementById('songCloseBtn');
-      const songFrame = document.getElementById('songFrame');
-      const songTitle = document.getElementById('songModalTitle');
-
-      function openSong(url, label) {
-        if (!songModal || !songFrame) return;
-        // Ensure sandbox is permissive enough for most pages
+            <a href="https://maps.app.goo.gl/yc
         songFrame.setAttribute('sandbox', 'allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation');
         songFrame.srcdoc = ''; // clear any previous message
         songFrame.src = url;
