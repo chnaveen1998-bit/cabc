@@ -142,6 +142,88 @@
         margin-top: 0.75rem;
       }
     }
+
+    /* Ensure hero timetable content stays inside the box and is scrollable if tall */
+    .timetable {
+      max-height: min(60vh, 460px);
+      overflow: auto;
+      padding-right: 0.5rem;
+    }
+
+    .hero-card {
+      overflow: visible;
+    }
+
+    /* If the SVG is decorative, ignore pointer events */
+    .polymorph {
+      pointer-events: none;
+    }
+
+    /* Promise modal basics + rotate control */
+    .promise-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      /* shown via JS as flex */
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .promise-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .promise-dialog {
+      position: relative;
+      z-index: 1;
+      max-width: 92vw;
+      max-height: 92vh;
+    }
+
+    .promise-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      padding: 6px 8px;
+      cursor: pointer;
+    }
+
+    .promise-rotate {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      padding: 6px 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #promiseImg {
+      max-width: 90vw;
+      max-height: 85vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 8px;
+      background: #000;
+      transition: transform .2s ease;
+    }
+
+    #promiseImg.rotated {
+      transform: rotate(90deg);
+    }
   </style>
 </head>
 
@@ -189,7 +271,7 @@
   <main>
     <section class="hero">
       <!-- Background video: intro.mp4 should live next to index.html or update the src path -->
-      <video id="bgVideo" class="video-bg" playsinline muted preload="auto" aria-hidden="true">
+      <video id="bgVideo" class="video-bg" playsinline muted autoplay loop preload="auto" aria-hidden="true">
         <source src="intro.mp4" type="video/mp4" />
         <!-- fallback poster or message -->
         Your browser does not support the video tag.
@@ -378,10 +460,10 @@
             <button id="goSong" class="btn">Go</button>
             <!-- Download button for the full song book PDF -->
             <a id="downloadSongbook" class="btn" href="downloads/andhra_christava_keerthanalu.pdf" download><span class="lang-te">డౌన్లోడ్ చేయండి</span><span class="lang-en">Download Song Book</span></a>
-            <!-- Added: Open design in Canva -->
-            <a id="openCanva" class="btn" href="https://www.canva.com/design/DAG2PhaI6KQ/g-NvX1k0ku2ezrc_9SrwEw/view?utm_content=DAG2PhaI6KQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd491eb30dd" target="_blank" rel="noopener">
+            <!-- Promise Card now opens local image modal with rotate control -->
+            <button type="button" id="openPromise" class="btn">
           <span class="lang-te">విశ్వాస ప్రమాణం</span><span class="lang-en">Promise Card</span>
-            </a>
+            </button>
           </div>
           <p class="muted small">The viewer will open "http://akkonline.joelnetwork.com/songs/&lt;number&gt;.html" in a popup.</p>
         </form>
@@ -868,7 +950,13 @@
           <h3><span class="lang-te">నెలవారీ కానుకలు</span><span class="lang-en">Recurring Donation</span></h3>
           <p><span class="lang-te">ఒక నెలవారీ బహుమతి (ప్రతి నెల) ఏర్పాటు చేయండి.</span><span class="lang-en">Set up a
               recurring gift (monthly).</span></p>
-          <label class="switch"><input id="recurring" type="checkbox" /><span class="slider"></span></label>
+            <label class="switch">
+            <input id="recurring" type="checkbox" aria-label="Recurring donation" />
+            <span class="slider" aria-hidden="true"></span>
+            <span class="sr-only">
+              <span class="lang-te">నెలవారీ కానుక</span><span class="lang-en">Recurring donation</span>
+            </span>
+          </label>
           <button class="btn"> <span class="lang-te">నెలవారీ ఏర్పాటు చేయండి</span><span class="lang-en">Set up
               recurring</span></button>
         </div>
@@ -926,6 +1014,7 @@
     <div class="promise-backdrop" id="promiseBackdrop"></div>
     <div class="promise-dialog" role="document">
       <button id="promiseCloseBtn" class="promise-close" aria-label="Close Promise Card">✕</button>
+      <button id="promiseRotateBtn" class="promise-rotate" aria-label="Rotate image">⤾ Rotate</button>
       <img id="promiseImg" src="PromiseCard.jpg" alt="Promise Card" />
     </div>
   </div>
@@ -939,6 +1028,120 @@
   <!-- Removed PDF.js (no longer used) -->
   <!-- main JS (handles membership submission and other front-end behaviour) -->
   <script src="js/main.js"></script>
+
+  <!-- Small helpers: Song popup fallback, Promise modal rotate, Sermons fallback, Hero video autoplay -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero: make sure background video autoplays/loops
+      const bgVideo = document.getElementById('bgVideo');
+      if (bgVideo) {
+        const tryPlay = () => bgVideo.play().catch(() => {});
+        bgVideo.setAttribute('autoplay', '');
+        bgVideo.setAttribute('loop', '');
+        bgVideo.addEventListener('canplay', tryPlay, { once: true });
+        setTimeout(tryPlay, 1000);
+      }
+
+      // Song book: open song in modal iframe, fallback to new tab if blocked
+      const goBtn = document.getElementById('goSong');
+      const songInput = document.getElementById('songNumber');
+      const songModal = document.getElementById('songModal');
+      const songFrame = document.getElementById('songFrame');
+      const songCloseBtn = document.getElementById('songCloseBtn');
+      const songBackdrop = document.getElementById('songBackdrop');
+
+      function openSong(num) {
+        const url = 'http://akkonline.joelnetwork.com/songs/' + num + '.html';
+        songFrame.src = url;
+        songModal.style.display = 'block';
+        songModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        // If the site refuses to be embedded, fallback to opening a new tab
+        const fallback = setTimeout(() => {
+          try {
+            // If contentWindow is missing or load was blocked, fallback
+            if (!songFrame.contentWindow) {
+              window.open(url, '_blank', 'noopener');
+              closeSong();
+            }
+          } catch (e) {
+            // Any cross-origin access issue: just let the modal stay (page likely loaded),
+            // but if it truly failed, user can still use the opened tab
+          }
+        }, 1800);
+
+        songFrame.addEventListener('load', () => clearTimeout(fallback), { once: true });
+      }
+      function closeSong() {
+        songFrame.src = '';
+        songModal.style.display = 'none';
+        songModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      goBtn?.addEventListener('click', () => {
+        const num = parseInt(songInput.value, 10);
+        if (!num || num < 1) {
+          alert('Enter a valid song number');
+          return;
+        }
+        openSong(num);
+      });
+      songCloseBtn?.addEventListener('click', closeSong);
+      songBackdrop?.addEventListener('click', closeSong);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && songModal.style.display === 'block') closeSong();
+      });
+
+      // Promise Card modal + rotate control
+      const openPromiseBtn = document.getElementById('openPromise');
+      const pModal = document.getElementById('promiseModal');
+      const pBackdrop = document.getElementById('promiseBackdrop');
+      const pClose = document.getElementById('promiseCloseBtn');
+      const pRotate = document.getElementById('promiseRotateBtn');
+      const pImg = document.getElementById('promiseImg');
+
+      function openPromise() {
+        pModal.style.display = 'flex';
+        pModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closePromise() {
+        pModal.style.display = 'none';
+        pModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        pImg.classList.remove('rotated');
+      }
+
+      openPromiseBtn?.addEventListener('click', (e) => { e.preventDefault(); openPromise(); });
+      pClose?.addEventListener('click', closePromise);
+      pBackdrop?.addEventListener('click', closePromise);
+      pRotate?.addEventListener('click', () => pImg.classList.toggle('rotated'));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && pModal.style.display === 'flex') closePromise();
+      });
+
+      // Sermons: if dynamic loader didn't render anything, add a live-stream fallback iframe
+      const sermonMain = document.getElementById('sermonMain');
+      if (sermonMain && !sermonMain.children.length) {
+        const channelId = 'REPLACE_WITH_YOUR_CHANNEL_ID'; // e.g. UCxxxxxxxxxxxxxxxx
+        if (channelId && !channelId.includes('REPLACE')) {
+          const iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube.com/embed/live_stream?channel=' + channelId;
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          iframe.allowFullscreen = true;
+          iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+          iframe.style.width = '100%';
+          iframe.style.aspectRatio = '16/9';
+          iframe.style.border = '0';
+          iframe.style.borderRadius = '8px';
+          sermonMain.appendChild(iframe);
+        }
+      }
+    });
+  </script>
+
   <noscript>
     <a href="#top" class="scroll-top-btn">↑</a>
   </noscript>
