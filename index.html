@@ -147,46 +147,79 @@
     .hero {
       position: relative;
       overflow: hidden;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25));
+      /* create stacking context so content sits above video reliably */
+      isolation: isolate;
     }
 
-    /* Ensure hero content stacks above the video and restore spacing/layout */
-    .container.hero-inner {
+    /* container inside hero: center content and ensure readable card */
+    .hero-inner {
       position: relative;
-      z-index: 2;
+      min-height: 420px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      padding: 2rem 1rem;
       gap: 1rem;
-      padding: 3rem 1rem;
-      min-height: 420px;
     }
 
-    /* Card styling so timetable and text are readable and not clipped */
+    /* left / right helpers (keep existing markup working) */
+    .hero-left {
+      flex: 1 1 40%;
+      display: none;
+      /* reserved if needed later */
+    }
+
+    .hero-right {
+      flex: 1 1 60%;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* visible card: white/opaque background so text is legible over video */
     .hero-card {
       width: 100%;
       max-width: 720px;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       color: #0f172a;
-      border-radius: 12px;
       padding: 1.25rem;
-      box-shadow: 0 8px 30px rgba(2, 6, 23, 0.08);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(2, 6, 23, 0.12);
       overflow: visible;
     }
 
-    /* Align right column inside hero (keeps layout similar to original) */
-    .hero-right {
-      flex: 1 1 auto;
+    /* make CTAs line up and not overflow on small screens */
+    .hero-ctas {
       display: flex;
-      justify-content: flex-end;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
     }
 
-    /* Make the polymorph decorative SVG less intrusive on small screens */
-    @media (max-width: 900px) {
-      .container.hero-inner {
-        padding: 2rem 0.75rem;
-        min-height: auto;
-        flex-direction: column;
-        align-items: stretch;
+    .hero-ctas .btn {
+      flex: 0 0 auto;
+    }
+
+    /* timetable inside the card: ensure no accidental clipping on small screens */
+    .timetable {
+      background: transparent;
+      padding: 0;
+    }
+
+    .timetable ul {
+      max-width: 100%;
+      overflow: visible;
+    }
+
+    .timetable li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* responsive tweaks: reduce card padding and min-height on very small screens */
+    @media (max-width: 520px) {
+      .hero-inner {
+        min-height: 340px;
+        padding: 1rem;
       }
 
       .hero-card {
@@ -194,12 +227,8 @@
         border-radius: 10px;
       }
 
-      .polymorph {
-        display: none;
-      } /* reduces layout noise on small screens */
-
-      .timetable {
-        padding: .75rem;
+      .timetable div[style] {
+        grid-template-columns: 90px 1fr;
       }
     }
 
@@ -293,79 +322,6 @@
         min-height: 420px;
       }
     }
-
-    /* Timetable: ensure heading sits above the rest */
-    .timetable>h3 {
-      display: block;
-      margin: 0 0 .5rem;
-    }
-
-    .timetable ul {
-      display: block;
-    }
-
-    /* Login modal minimal styling */
-    .login-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 1100;
-      display: none;
-    }
-
-    .login-modal[aria-hidden="false"] {
-      display: block;
-    }
-
-    .login-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, .55);
-    }
-
-    .login-dialog {
-      position: relative;
-      z-index: 1;
-      margin: 10vh auto;
-      max-width: 420px;
-      width: calc(100% - 2rem);
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, .25);
-    }
-
-    .login-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: .75rem 1rem;
-      border-bottom: 1px solid rgba(15, 23, 42, .08);
-    }
-
-    .login-body {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: .5rem;
-    }
-
-    .login-body label {
-      display: flex;
-      flex-direction: column;
-      gap: .25rem;
-      font-size: .9rem;
-    }
-
-    .login-actions {
-      display: flex;
-      gap: .5rem;
-      margin-top: .5rem;
-    }
-
-    .login-error {
-      color: #b91c1c;
-      font-size: .85rem;
-      min-height: 1.2em;
-    }
   </style>
 </head>
 
@@ -411,15 +367,17 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero" role="region" aria-label="Hero section">
       <!-- Background video: intro.mp4 should live next to index.html or update the src path -->
-      <video id="bgVideo" class="video-bg" muted preload="auto" autoplay loop aria-hidden="true">
+      <video id="bgVideo" class="video-bg" playsinline muted preload="auto" autoplay loop aria-hidden="true">
         <source src="intro.mp4" type="video/mp4" />
         <!-- fallback poster or message -->
         Your browser does not support the video tag.
       </video>
 
       <div class="container hero-inner">
+        <!-- .hero-left reserved -->
+        <div class="hero-left" aria-hidden="true"></div>
 
         <div class="hero-right">
           <div class="hero-card">
@@ -737,7 +695,7 @@
                 required placeholder="Write your prayer request"></textarea></label>
             <label><input id="prayerAnon" type="checkbox" /> <span class="lang-te">గోప్యంగా పోస్ట్ చేయండి</span><span
                 class="lang-en">Post anonymously</span></label>
-            <div style="margin-top:0.5rem"><button id="prayerSubmit" class="btn primary"><span 
+            <div style="margin-top:0.5rem"><button id="prayerSubmit" class="btn primary"><span
                   class="lang-te">సమర్పించండి</span><span class="lang-en">Submit</span></button></div>
           </form>
         </div>
@@ -751,7 +709,7 @@
             <button id="exportPrayers" class="btn"><span class="lang-te">ప్రార్థనలను ఎగుమతి చేయండి</span><span
                 class="lang-en">Export Prayers</span></button>
             <a href="https://drive.google.com/drive/folders/1YZ6M9QNb0MIaNq1-gRfuWJ-_4VcsXLPh?usp=share_link"
-              target="_blank" rel="noopener" class="btn"><span class="lang-te">డ్రైవ్ ఫోల్డర్‌ను తెరవండి</span><span
+              target="_blank" class="btn"><span class="lang-te">డ్రైవ్ ఫోల్డర్‌ను తెరవండి</span><span
                 class="lang-en">Open Drive Folder</span></a>
           </div>
         </div>
@@ -1094,13 +1052,7 @@
           <h3><span class="lang-te">నెలవారీ కానుకలు</span><span class="lang-en">Recurring Donation</span></h3>
           <p><span class="lang-te">ఒక నెలవారీ బహుమతి (ప్రతి నెల) ఏర్పాటు చేయండి.</span><span class="lang-en">Set up a
               recurring gift (monthly).</span></p>
-          <label class="switch">
-            <input id="recurring" type="checkbox" aria-label="Enable recurring donation" />
-            <span class="slider"></span>
-            <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
-              <span class="lang-te">నెలవారీ కానుకను ప్రారంభించండి</span><span class="lang-en">Enable recurring donation</span>
-            </span>
-          </label>
+          <label class="switch"><input id="recurring" type="checkbox" /><span class="slider"></span></label>
           <button class="btn"> <span class="lang-te">నెలవారీ ఏర్పాటు చేయండి</span><span class="lang-en">Set up
               recurring</span></button>
         </div>
@@ -1128,7 +1080,80 @@
           <h2><span class="lang-te">మమ్మల్ని కనుగొనండి</span><span class="lang-en">Find us</span></h2>
           <div class="map-wrap">
             <!-- Map: clicking opens the maps.app link provided -->
-            <a href="https://maps.app.goo.gl/yc
+            <a href="https://maps.app.goo.gl/yc66TZ1E7U3P6Vjq6" target="_blank" rel="noopener noreferrer">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d954.1776195931478!2d82.2354192!3d16.9395678!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3827e836bf11f3%3A0x5e5e24e6e25915b1!2sCentenary%20Andhra%20Baptist%20Church!5e0!3m2!1sen!2sin!4v1760121788495!5m2!1sen!2sin"
+                frameborder="0" style="width:100%;height:220px;border:0;border-radius:8px"></iframe>
+            </a>
+          </div>
+          <div class="social-links" aria-label="Social links">
+            <a class="social-link" href="/Users/naveenchitturi/Downloads/CABC/facebook-square-icon.svg" target="_blank"
+              rel="noopener" title="Facebook">
+              <img class="social-icon" src="facebook-square-icon.svg" alt="Facebook" width="20" height="20" />
+            </a>
+            <a class="social-link" href="https://www.instagram.com/cab_church_kakinada/" target="_blank" rel="noopener"
+              title="Instagram">
+              <img class="social-icon" src="ig-instagram-icon.svg" alt="Instagram" width="20" height="20" />
+            </a>
+            <a class="social-link" href="https://www.youtube.com/@CABCKakinada" target="_blank" rel="noopener"
+              title="YouTube">
+              <img class="social-icon" src="youtube-app-icon.svg" alt="YouTube" width="20" height="20" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Promise Card full-screen modal -->
+  <div id="promiseModal" class="promise-modal" aria-hidden="true" role="dialog" aria-label="Promise Card viewer" style="display:none;">
+    <div class="promise-backdrop" id="promiseBackdrop"></div>
+    <div class="promise-dialog" role="document">
+      <button id="promiseCloseBtn" class="promise-close" aria-label="Close Promise Card">✕</button>
+      <button id="rotatePromiseBtn" class="rotate-btn" aria-label="Rotate">⟳</button>
+      <img id="promiseImg" src="PromiseCard.jpg" alt="Promise Card" />
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> CABC Church — Template</p>
+    </div>
+  </footer>
+
+  <!-- Removed PDF.js (no longer used) -->
+  <!-- main JS (handles membership submission and other front-end behaviour) -->
+  <script src="js/main.js"></script>
+
+  <!-- Small inline fixes for song popup, promise rotate, hero video autoplay, and sermons fallback -->
+  <script>
+    (function () {
+      // Hero video: force autoplay if browser pauses it
+      const bg = document.getElementById('bgVideo');
+      if (bg) {
+        const tryPlay = () => bg.play().catch(() => {});
+        if (!bg.hasAttribute('autoplay')) bg.setAttribute('autoplay', '');
+        if (!bg.hasAttribute('loop')) bg.setAttribute('loop', '');
+        if (!bg.muted) bg.muted = true;
+        if (!bg.playsInline) bg.setAttribute('playsinline', '');
+        bg.addEventListener('canplay', tryPlay, { once: true });
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) tryPlay();
+        });
+      }
+
+      // Song popup: open http URL inside modal. Graceful fallback link + mixed-content handling.
+      const goBtn = document.getElementById('goSong');
+      const songInput = document.getElementById('songNumber');
+      const songModal = document.getElementById('songModal');
+      const songBackdrop = document.getElementById('songBackdrop');
+      const songCloseBtn = document.getElementById('songCloseBtn');
+      const songFrame = document.getElementById('songFrame');
+      const songTitle = document.getElementById('songModalTitle');
+
+      function openSong(url, label) {
+        if (!songModal || !songFrame) return;
+        // Ensure sandbox is permissive enough for most pages
         songFrame.setAttribute('sandbox', 'allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation');
         songFrame.srcdoc = ''; // clear any previous message
         songFrame.src = url;
@@ -1249,6 +1274,7 @@
       if (sermonMain) {
         const ch = (sermonMain.getAttribute('data-channel-id') || '').trim();
         if (ch && /^UC[a-zA-Z0-9_-]{22}$/.test(ch)) {
+
           sermonMain.innerHTML = `
             <iframe
               src="https://www.youtube-nocookie.com/embed/live_stream?channel=${ch}"
