@@ -545,19 +545,20 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 }
 
 
-.membership-form{
+/* .membership-form{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem 2rem;
   align-items: start;
 }
-
 .membership-form label{
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.25rem;
   font-weight: 500;
+  min-width: 0;  
 }
+
 
 
 .membership-form input,
@@ -576,7 +577,66 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 
 .full-width{
   grid-column: 1 / -1;
+} */
+ .membership-columns{
+  display:grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
+
+.membership-left,
+.membership-right{
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 10px;
+  min-width: 0;
+}
+
+.membership-form{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 2rem;
+  align-items: start;
+}
+
+.membership-form label{
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 500;
+  min-width: 0;
+}
+
+.membership-form > *{
+  min-width: 0;
+}
+
+.membership-form input,
+.membership-form textarea,
+.membership-form select{
+  width: 100%;
+  max-width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+}
+
+.full-width{
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 480px){
+  .membership-form{
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
 
 /* children table / blocks */
 .children-scroll{
