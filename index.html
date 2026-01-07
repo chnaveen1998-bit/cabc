@@ -390,69 +390,109 @@
               <span class="lang-en">Join us this Sunday — everyone welcome</span>
             </p>
 
-<div class="polymorph-wrap">
-  <div class="timetable">
+            <div class="polymorph-wrap" aria-hidden="false">
+              <!-- SVG morphing background -->
+              <svg class="polymorph" viewBox="0 0 600 400" preserveAspectRatio="none"
+                xmlns="http://www.w3.org/2000/svg">
+              </svg>
 
-    <h3>
-      <span class="lang-te">ఆదివారపు ఆరాధన సమయం</span>
-      <span class="lang-en">Sunday Worship Times</span>
-    </h3>
+              <div class="timetable">
+                <!-- moved the heading outside of the UL to avoid clipping/invalid markup -->
+                <div></div>
+                <h3><strong>
+                    <span class="lang-te">ఆదివారపు ఆరాధన సమయం</span>
+                    <span class="lang-en">Sunday Worship times</span>
+                  </strong></h3>
+                </div>
+                <div>
+                  <ul>
+                  <li>
+                    <div style="display:grid;grid-template-columns:120px 1fr;gap:0.5rem;align-items:center;">
+                      <div><strong>08:00 - 09:00</strong></div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">సండే స్కూల్</span>
+                        <span class="lang-en">Sunday School</span>
+                      </div>
+                    </div>
+                  </li>
 
-    <ul>
-      <li>
-        <strong>08:00 – 09:00</strong>
-        <span class="lang-te">సండే స్కూల్</span>
-        <span class="lang-en">Sunday School</span>
-      </li>
+                  <li>
+                    <div style="display:grid;grid-template-columns:120px 1fr;gap:0.5rem;align-items:center;">
+                      <div><strong>09:00 - 09:30</strong></div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">క్వయిర్</span>
+                        <span class="lang-en">Choir</span>
+                      </div>
+                    </div>
+                  </li>
 
-      <li>
-        <strong>09:00 – 09:30</strong>
-        <span class="lang-te">క్వయిర్</span>
-        <span class="lang-en">Choir</span>
-      </li>
+                  <li>
+                    <div style="display:grid;grid-template-columns:120px 1fr;gap:0.5rem;align-items:center;">
+                      <div><strong>09:30 - 12:00</strong></div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">ఆరాధనా</span>
+                        <span class="lang-en">Main Service</span>
+                      </div>
+                    </div>
+                  </li>
+                  <li><span class="lang-te">యవ్వనస్థుల కూడిక (ఆరాధనా అనంతరం)</span><span class="lang-en">Youth Meeting (After Worship)</span></li>
+                  <li>
+                    <div style="display:grid;grid-template-columns:1fr 120px 1fr;gap:0.5rem;align-items:center;">
+                      <div style="display:flex;flex-direction:column;">
+                        <strong>  <span class="lang-te">మంగళవారం</span><span class="lang-en">Tuesday</span></strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:center;">
+                        <strong>
+                          <span class="lang-te">మ|| 2:00 గం||కు</span>
+                          <span class="lang-en">02:00 P.M</span>
+                        </strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">స్త్రీల సమాజం</span>
+                        <span class="lang-en">Women's worship</span>
+                      </div>
+                    </div>
+                  </li>
 
-      <li>
-        <strong>09:30 – 12:00</strong>
-        <span class="lang-te">ఆరాధన</span>
-        <span class="lang-en">Main Service</span>
-      </li>
+                  <li>
+                    <div style="display:grid;grid-template-columns:1fr 120px 1fr;gap:0.5rem;align-items:center;">
+                      <div style="display:flex;flex-direction:column;">
+                        <strong><span class="lang-te">గురువారం</span><span class="lang-en">Thursday</span></strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:center;">
+                        <strong>
+                          <span class="lang-te">సా|| 6:30 గం||కు</span>
+                          <span class="lang-en">06:30 P.M</span>
+                        </strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">బైబిల్ స్టడీ</span>
+                        <span class="lang-en">Bible Study</span>
+                      </div>
+                    </div>
+                  </li>
 
-      <li>
-        <span class="lang-te">యవ్వనస్థుల కూడిక (ఆరాధన అనంతరం)</span>
-        <span class="lang-en">Youth Meeting (After Worship)</span>
-      </li>
-
-      <li>
-        <strong>
-          <span class="lang-te">మంగళవారం – మ|| 2:00 గం||కు</span>
-          <span class="lang-en">Tuesday – 02:00 PM</span>
-        </strong>
-        <span class="lang-te">స్త్రీల సమాజం</span>
-        <span class="lang-en">Women’s Worship</span>
-      </li>
-
-      <li>
-        <strong>
-          <span class="lang-te">గురువారం – సా|| 6:30 గం||కు</span>
-          <span class="lang-en">Thursday – 06:30 PM</span>
-        </strong>
-        <span class="lang-te">బైబిల్ స్టడీ</span>
-        <span class="lang-en">Bible Study</span>
-      </li>
-
-      <li>
-        <strong>
-          <span class="lang-te">శుక్రవారం – మ|| 2:00 గం||కు</span>
-          <span class="lang-en">Friday – 02:00 PM</span>
-        </strong>
-        <span class="lang-te">ఉపవాస ప్రార్థన</span>
-        <span class="lang-en">Fasting Prayer</span>
-      </li>
-    </ul>
-
-  </div>
-</div>
-
+                  <li>
+                    <div style="display:grid;grid-template-columns:1fr 120px 1fr;gap:0.5rem;align-items:center;">
+                      <div style="display:flex;flex-direction:column;">
+                        <strong><span class="lang-te">శుక్రవారం</span><span class="lang-en">Friday</span></strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:center;">
+                        <strong>
+                          <span class="lang-te">మ|| 2:00 గం||కు</span>
+                          <span class="lang-en">02:00 P.M</span>
+                        </strong>
+                      </div>
+                      <div style="display:flex;flex-direction:column;">
+                        <span class="lang-te">ఉపవాస ప్రార్థన</span>
+                        <span class="lang-en">Fasting Prayer</span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                </div>
+              </div>
+            </div>
 
             <div class="hero-ctas">
               <a class="btn primary" href="#contact"> <span class="lang-te">సందర్శన కోసం ప్రణాళిక</span><span
@@ -652,8 +692,8 @@
         <div class="prayer-left">
           <h3><span class="lang-te">ప్రార్థన అభ్యర్థనను సమర్పించండి</span><span class="lang-en">Submit a prayer
               request</span></h3>
-          <form id="prayerForm" class="membership-form" onsubmit="return false;">
-            <!-- <label> <span class="lang-te">మీ పూర్తి పేరు</span><span class="lang-en">Name</span> <input id="prayerName"
+          <form id="prayerForm" class="prayer-form" onsubmit="return false;">
+            <label> <span class="lang-te">మీ పూర్తి పేరు</span><span class="lang-en">Name</span> <input id="prayerName"
                 placeholder="Your name (optional)" /></label>
             <label><span class="lang-te">ప్రార్థన</span><span class="lang-en">Prayer</span> <textarea id="prayerText"
                 required placeholder="Write your prayer request"></textarea></label>
@@ -663,38 +703,6 @@
                   class="lang-te">సమర్పించండి</span><span class="lang-en">Submit</span></button></div>
           </form>
         </div>
-        <form id="prayerForm" class="membership-form" onsubmit="return false;"> -->
-
-  <label>
-    <span class="lang-te">మీ పూర్తి పేరు</span>
-    <span class="lang-en">Name</span>
-    <input id="prayerName" placeholder="Your name (optional)" />
-  </label>
-
-  <label class="full-width">
-    <span class="lang-te">ప్రార్థన</span>
-    <span class="lang-en">Prayer</span>
-    <textarea id="prayerText" required placeholder="Write your prayer request"></textarea>
-  </label>
-
-  <!-- ✅ FIXED CHECKBOX -->
-  <div class="checkbox-row full-width">
-    <input type="checkbox" id="prayerAnon" name="prayerAnon">
-    <label for="prayerAnon">
-      <span class="lang-te">గోప్యంగా పోస్ట్ చేయండి</span>
-      <span class="lang-en">Post anonymously</span>
-    </label>
-  </div>
-
-  <div class="form-actions full-width">
-    <button id="prayerSubmit" class="btn primary">
-      <span class="lang-te">సమర్పించండి</span>
-      <span class="lang-en">Submit</span>
-    </button>
-  </div>
-
-</form>
-
 
         <div class="prayer-right">
           <h3><span class="lang-te">ప్రార్థన గోడ</span><span class="lang-en">Prayer wall</span></h3>
@@ -720,234 +728,182 @@
       <div class="membership-columns">
         <div class="membership-left">
           <h3><span class="lang-te">సభ్యత్వ దరఖాస్తు</span><span class="lang-en">Membership Application</span></h3>
-<form id="membershipForm" class="membership-form" enctype="multipart/form-data">
+          <form id="membershipForm" enctype="multipart/form-data">
+            <div class="form-row">
+              <label><span class="lang-te">పూర్తి పేరు</span><span class="lang-en">Full Name</span> <input
+                  id="memberName" name="memberName" required /></label>
+              <label><span class="lang-te">జన్మతేదీ</span><span class="lang-en">Date of Birth</span> <input
+                  id="memberDob" name="memberDob" type="date" required /></label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">ఫోన్</span><span class="lang-en">Phone</span> <input id="memberPhone"
+                  name="memberPhone" type="tel" required /></label>
+              <label><span class="lang-te">ఇమెయిల్</span><span class="lang-en">Email</span> <input id="memberEmail"
+                  name="memberEmail" type="email" required /></label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">లింగం</span><span class="lang-en">Gender</span>
+                <select id="memberGender" name="memberGender" required>
+                  <option value="">Select...</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+              <label><span class="lang-te">వర్గం</span><span class="lang-en">Caste</span>
+                <select id="memberCaste" name="memberCaste" required>
+                  <option value="">Select...</option>
+                  <option value="OC">OC</option>
+                  <option value="BC-A">BC-A</option>
+                  <option value="BC-B">BC-B</option>
+                  <option value="BC-C">BC-C</option>
+                  <option value="BC-D">BC-D</option>
+                  <option value="BC-E">BC-E</option>
+                  <option value="SC">SC</option>
+                  <option value="ST">ST</option>
+                  <option value="Others">Others</option>
+                </select>
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">ఇక్కద/వికలాంగత</span><span class="lang-en">Disability</span>
+                <select id="memberDisability" name="memberDisability" required>
+                  <option value="">Select...</option>
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </label>
+              <label><span class="lang-te">వయస్సు</span><span class="lang-en">Age</span> <input id="memberAge" name="memberAge" type="number" min="0" required /></label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">ఏ/status</span><span class="lang-en">Marital Status</span>
+                <select id="memberMarital" name="memberMarital" required>
+                  <option value="">Select...</option>
+                  <option value="single">Single</option>
+                  <option value="married">Married</option>
+                  <option value="widowed">Widowed</option>
+                  <option value="divorced">Divorced</option>
+                </select>
+              </label>
+              <!-- ...existing code... -->
+            </div>
+            <label><span class="lang-te">చిరునామా</span><span class="lang-en">Address</span> <textarea
+                id="memberAddress" name="memberAddress" rows="2" required></textarea></label>
+            <div class="form-row">
+              <label><span class="lang-te">బాప్తిస్మం పొందారా?</span><span class="lang-en">Baptized?</span> <select
+                  id="memberBaptized" name="memberBaptized" required>
+                  <option value=""><span class="lang-te">ఎంచుకోండి...</span><span class="lang-en">Select...</span>
+                  </option>
+                  <option value="yes"><span class="lang-te">అవును</span><span class="lang-en">Yes</span></option>
+                  <option value="no"><span class="lang-te">కాదు</span><span class="lang-en">No</span></option>
+                </select></label>
+              <label><span class="lang-te">మునుపటి చర్చి (ఉంటే)</span><span class="lang-en">Previous Church (if
+                  any)</span> <input id="memberPrevChurch" name="memberPrevChurch" /></label>
+            </div>
+            <label><span class="lang-te">మీరు మా చర్చి చేరాలనుకుంటున్న కారణం ఏమిటి?</span><span class="lang-en">Why do
+                you want to join our church?</span> <textarea id="memberWhy" name="memberWhy" rows="3"
+                required></textarea></label>
 
-  <label>
-    <span class="lang-te">పూర్తి పేరు</span><span class="lang-en">Full Name</span>
-    <input id="memberName" name="memberName" required />
-  </label>
+            <div class="form-row">
+              <label><span class="lang-te">పుట్టిన స్థలం</span><span class="lang-en">Birth Place</span> <input id="memberBirthPlace" name="memberBirthPlace" /></label>
+              <label><span class="lang-te">రక్త దానం గ్రూప్</span><span class="lang-en">Blood Group</span>
+                <select id="memberBloodGroup" name="memberBloodGroup">
+                  <option value="">Select...</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </label>
+            </div>
 
-  <label>
-    <span class="lang-te">జన్మతేదీ</span><span class="lang-en">Date of Birth</span>
-    <input id="memberDob" name="memberDob" type="date" required />
-  </label>
+            <div class="form-row">
+              <label><span class="lang-te">క్రైస్తవుడు (జన్మతో/మార్పిడి)</span><span class="lang-en">Christian (By birth / Converted)</span>
+                <select id="memberChristianStatus" name="memberChristianStatus">
+                  <option value="">Select...</option>
+                  <option value="by_birth">By birth</option>
+                  <option value="converted">Converted</option>
+                </select>
+              </label>
+              <label><span class="lang-te">బాప్తిస్మం పాస్టర్ & సంవత్సరం</span><span class="lang-en">Baptism Pastor & Year</span>
+                <input id="memberBaptismPastor" name="memberBaptismPastor" placeholder="Pastor name" />
+                <input id="memberBaptismYear" name="memberBaptismYear" type="number" min="1800" max="2099" placeholder="Year" style="max-width:120px;margin-left:0.5rem" />
+              </label>
+            </div>
 
-  <label>
-    <span class="lang-te">ఫోన్</span><span class="lang-en">Phone</span>
-    <input id="memberPhone" name="memberPhone" type="tel" required />
-  </label>
+            <label><span class="lang-te">అధ్యయన / విద్యా అర్హతలు</span><span class="lang-en">Educational Qualifications</span> <textarea id="memberEducation" name="memberEducation" rows="2"></textarea></label>
+            <label><span class="lang-te">ఇతర అర్హతలు</span><span class="lang-en">Other Qualifications</span> <textarea id="memberOtherQualifications" name="memberOtherQualifications" rows="2"></textarea></label>
 
-  <label>
-    <span class="lang-te">ఇమెయిల్</span><span class="lang-en">Email</span>
-    <input id="memberEmail" name="memberEmail" type="email" required />
-  </label>
+            <div class="form-row">
+              <label><span class="lang-te">వృత్తి / ఉద్యోగం</span><span class="lang-en">Occupation</span> <input id="memberOccupation" name="memberOccupation" /></label>
+              <label><span class="lang-te">Aadhar నంబర్</span><span class="lang-en">Aadhar Number</span> <input id="memberAadhar" name="memberAadhar" type="text" inputmode="numeric" /></label>
+            </div>
 
-  <label>
-    <span class="lang-te">లింగం</span><span class="lang-en">Gender</span>
-    <select id="memberGender" name="memberGender" required>
-      <option value="">Select...</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
-    </select>
-  </label>
+            <div class="form-row">
+              <label><span class="lang-te">తండ్రి పేరు / వృత్తి</span><span class="lang-en">Father's Name / Occupation</span>
+                <input id="memberFatherName" name="memberFatherName" placeholder="Name" />
+                <input id="memberFatherOcc" name="memberFatherOcc" placeholder="Occupation" style="margin-left:0.5rem" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">తల్లి పేరు / వృత్తి</span><span class="lang-en">Mother's Name / Occupation</span>
+                <input id="memberMotherName" name="memberMotherName" placeholder="Name" />
+                <input id="memberMotherOcc" name="memberMotherOcc" placeholder="Occupation" style="margin-left:0.5rem" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label><span class="lang-te">భర్త / భార్య పేరు / వృత్తి</span><span class="lang-en">Husband / Wife Name / Occupation</span>
+                <input id="memberSpouseName" name="memberSpouseName" placeholder="Name" />
+                <input id="memberSpouseOcc" name="memberSpouseOcc" placeholder="Occupation" style="margin-left:0.5rem" />
+              </label>
+            </div>
 
-  <label>
-    <span class="lang-te">వర్గం</span><span class="lang-en">Caste</span>
-    <select id="memberCaste" name="memberCaste" required>
-      <option value="">Select...</option>
-      <option value="OC">OC</option>
-      <option value="BC-A">BC-A</option>
-      <option value="BC-B">BC-B</option>
-      <option value="BC-C">BC-C</option>
-      <option value="BC-D">BC-D</option>
-      <option value="BC-E">BC-E</option>
-      <option value="SC">SC</option>
-      <option value="ST">ST</option>
-      <option value="Others">Others</option>
-    </select>
-  </label>
+            <div style="margin-top:0.5rem;border:1px dashed rgba(15,23,42,0.06);padding:0.5rem;border-radius:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
+                <strong><span class="lang-te">మంచి వివరాలు</span><span class="lang-en">Children Details</span></strong>
+                <button type="button" id="addChildBtn" class="btn"> <span class="lang-te">పిల్లలను జోడించండి</span><span class="lang-en">Add Child</span></button>
+              </div>
+              <div class="children-scroll">
+                <table id="childrenTable" style="width:100%;border-collapse:collapse">
+                  <thead>
+                    <tr>
+                      <th style="width:40px">S.No</th>
+                      <th>Son/Daughter Name</th>
+                      <th style="width:120px">Phone</th>
+                      <th style="width:60px">Age</th>
+                      <th>Educational Qualifications / Occupation</th>
+                      <th>Address</th>
+                      <th style="width:48px"> </th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
 
-  <label>
-    <span class="lang-te">ఇక్కద/వికలాంగత</span><span class="lang-en">Disability</span>
-    <select id="memberDisability" name="memberDisability" required>
-      <option value="">Select...</option>
-      <option value="no">No</option>
-      <option value="yes">Yes</option>
-    </select>
-  </label>
+            <label for="memberSignature"><span class="lang-te">డిజిటల్ సంతకం (ఫైల్)</span><span class="lang-en">Digital Signature (file)</span></label>
+            <input type="file" id="memberSignature" name="memberSignature" accept="image/*,application/pdf" />
 
-  <label>
-    <span class="lang-te">వయస్సు</span><span class="lang-en">Age</span>
-    <input id="memberAge" name="memberAge" type="number" min="0" required />
-  </label>
+            <label><span class="lang-te">ప్రకటన</span><span class="lang-en">Declaration</span> <textarea id="memberDeclaration" name="memberDeclaration" rows="3">I hereby declare that the information provided is true to the best of my knowledge.</textarea></label>
+            <div class="form-row">
+              <label><span class="lang-te">తేదీ</span><span class="lang-en">Date</span> <input id="memberDeclarationDate" name="memberDeclarationDate" type="date" /></label>
+              <label><span class="lang-te">స్థలం</span><span class="lang-en">Place</span> <input id="memberDeclarationPlace" name="memberDeclarationPlace" value="Jaganniackpur, Kakinada" /></label>
+            </div>
 
-  <label>
-    <span class="lang-te">ఏ/status</span><span class="lang-en">Marital Status</span>
-    <select id="memberMarital" name="memberMarital" required>
-      <option value="">Select...</option>
-      <option value="single">Single</option>
-      <option value="married">Married</option>
-      <option value="widowed">Widowed</option>
-      <option value="divorced">Divorced</option>
-    </select>
-  </label>
-
-  <label class="full-width">
-    <span class="lang-te">చిరునామా</span><span class="lang-en">Address</span>
-    <textarea id="memberAddress" name="memberAddress" rows="2" required></textarea>
-  </label>
-
-  <label>
-    <span class="lang-te">బాప్తిస్మం పొందారా?</span><span class="lang-en">Baptized?</span>
-    <select id="memberBaptized" name="memberBaptized" required>
-      <option value="">Select...</option>
-      <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </select>
-  </label>
-
-  <label>
-    <span class="lang-te">మునుపటి చర్చి</span><span class="lang-en">Previous Church</span>
-    <input id="memberPrevChurch" name="memberPrevChurch" />
-  </label>
-
-  <label class="full-width">
-    <span class="lang-te">మా చర్చి చేరాలనుకున్న కారణం</span>
-    <span class="lang-en">Why do you want to join?</span>
-    <textarea id="memberWhy" name="memberWhy" rows="3" required></textarea>
-  </label>
-
-  <label>
-    <span class="lang-te">పుట్టిన స్థలం</span><span class="lang-en">Birth Place</span>
-    <input id="memberBirthPlace" name="memberBirthPlace" />
-  </label>
-
-  <label>
-    <span class="lang-te">రక్త గ్రూప్</span><span class="lang-en">Blood Group</span>
-    <select id="memberBloodGroup" name="memberBloodGroup">
-      <option value="">Select...</option>
-      <option value="A+">A+</option><option value="A-">A-</option>
-      <option value="B+">B+</option><option value="B-">B-</option>
-      <option value="AB+">AB+</option><option value="AB-">AB-</option>
-      <option value="O+">O+</option><option value="O-">O-</option>
-    </select>
-  </label>
-
-  <label class="full-width">
-    <span class="lang-te">విద్యా అర్హతలు</span><span class="lang-en">Educational Qualifications</span>
-    <textarea id="memberEducation" name="memberEducation" rows="2"></textarea>
-  </label>
-
-  <label class="full-width">
-    <span class="lang-te">ఇతర అర్హతలు</span><span class="lang-en">Other Qualifications</span>
-    <textarea id="memberOtherQualifications" name="memberOtherQualifications" rows="2"></textarea>
-  </label>
-
-  <label>
-    <span class="lang-te">వృత్తి</span><span class="lang-en">Occupation</span>
-    <input id="memberOccupation" name="memberOccupation" />
-  </label>
-
-  <label>
-    <span class="lang-te">Aadhar</span><span class="lang-en">Aadhar Number</span>
-    <input id="memberAadhar" name="memberAadhar" />
-  </label>
-  <label class="full-width">
-  <span class="lang-te">తండ్రి పేరు / వృత్తి</span>
-  <span class="lang-en">Father's Name / Occupation</span>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
-    <input id="memberFatherName" name="memberFatherName" placeholder="Name" />
-    <input id="memberFatherOcc" name="memberFatherOcc" placeholder="Occupation" />
-  </div>
-</label>
-<label class="full-width">
-  <span class="lang-te">తల్లి పేరు / వృత్తి</span>
-  <span class="lang-en">Mother's Name / Occupation</span>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
-    <input id="memberMotherName" name="memberMotherName" placeholder="Name" />
-    <input id="memberMotherOcc" name="memberMotherOcc" placeholder="Occupation" />
-  </div>
-</label>
-<label class="full-width">
-  <span class="lang-te">భర్త / భార్య పేరు / వృత్తి</span>
-  <span class="lang-en">Husband / Wife Name / Occupation</span>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
-    <input id="memberSpouseName" name="memberSpouseName" placeholder="Name" />
-    <input id="memberSpouseOcc" name="memberSpouseOcc" placeholder="Occupation" />
-  </div>
-</label>
-<div class="full-width" style="margin-top:0.75rem;border:1px dashed rgba(15,23,42,0.06);padding:0.75rem;border-radius:8px">
-
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
-    <strong>
-      <span class="lang-te">మంచి వివరాలు</span>
-      <span class="lang-en">Children Details</span>
-    </strong>
-    <button type="button" id="addChildBtn" class="btn">
-      <span class="lang-te">పిల్లలను జోడించండి</span>
-      <span class="lang-en">Add Child</span>
-    </button>
-  </div>
-
-  <div class="children-scroll">
-    <table id="childrenTable" style="width:100%;border-collapse:collapse">
-      <thead>
-        <tr>
-          <th style="width:40px">S.No</th>
-          <th>Son/Daughter Name</th>
-          <th style="width:120px">Phone</th>
-          <th style="width:60px">Age</th>
-          <th>Educational Qualifications / Occupation</th>
-          <th>Address</th>
-          <th style="width:48px"></th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-</div>
-<label class="full-width">
-  <span class="lang-te">డిజిటల్ సంతకం (ఫైల్)</span>
-  <span class="lang-en">Digital Signature (file)</span>
-  <input type="file" id="memberSignature" name="memberSignature" accept="image/*,application/pdf" />
-</label>
-
-
-
-<label>
-  <span class="lang-te">తేదీ</span><span class="lang-en">Date</span>
-  <input id="memberDeclarationDate" name="memberDeclarationDate" type="date" />
-</label>
-
-<label>
-  <span class="lang-te">స్థలం</span><span class="lang-en">Place</span>
-  <input id="memberDeclarationPlace" name="memberDeclarationPlace"
-         value="Jaganniackpur, Kakinada" />
-</label>
-<label class="full-width">
-  <span class="lang-te">కుటుంబ ఫోటోని అప్‌లోడ్ చేయండి</span>
-  <span class="lang-en">Upload Family Photo</span>
-  <input type="file" id="familyPhoto" name="familyPhoto" accept="image/*" />
-</label>
-
-<label class="full-width">
-  <span class="lang-te">ప్రకటన</span>
-  <span class="lang-en">Declaration</span>
-  <textarea id="memberDeclaration" name="memberDeclaration" rows="3">
-I hereby declare that the information provided is true to the best of my knowledge.
-  </textarea>
-</label>
-  <div class="form-actions full-width">
-    <button type="submit" class="btn primary">
-      <span class="lang-te">అప్లికేషన్ సమర్పించండి</span>
-      <span class="lang-en">Submit Application</span>
-    </button>
-  </div>
-
-</form>
-
+            <label for="familyPhoto"><span class="lang-te">కుటుంబ ఫోటోని అప్‌లోడ్ చేయండి:</span><span
+                class="lang-en">Upload Family Photo:</span></label>
+            <input type="file" id="familyPhoto" name="familyPhoto" accept="image/*">
+            <div class="form-actions">
+              <button type="submit" class="btn primary"><span class="lang-te">అప్లికేషన్ సమర్పించండి</span><span
+                  class="lang-en">Submit Application</span></button>
+            </div>
+          </form>
+          <div id="membershipAck"></div>
+        </div>
 
         <div class="membership-right">
           <div class="rules-download">
