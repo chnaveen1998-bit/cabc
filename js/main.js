@@ -59,55 +59,13 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 
   // background video: play muted and loop between start and end times
-  const video = document.getElementById('bgVideo');
-  if(video){
-    // set attributes explicitly
-    video.muted = true;
-    video.playsInline = true;
+ const video = document.getElementById("bgVideo");
 
-    const start = 5; // seconds
-    const end = 17; // seconds
-
-    // Ensure video is ready, then start at `start` seconds
-    const ensurePlaySegment = ()=>{
-      try{
-        if(video.readyState >= 2){
-          // clamp duration
-          if(video.duration && video.duration > start){
-            video.currentTime = start;
-          }
-          const playPromise = video.play();
-          if(playPromise && typeof playPromise.then === 'function'){
-            playPromise.catch(()=>{
-              // Autoplay might be blocked; rely on user interaction
-            });
-          }
-        }
-      }catch(e){
-        // ignore
-      }
-    };
-
-    // On timeupdate, loop when passed end
-    video.addEventListener('timeupdate', ()=>{
-      if(video.currentTime >= end){
-        video.currentTime = start;
-      }
-    });
-
-    // Try to start when metadata loaded
-    video.addEventListener('loadedmetadata', ensurePlaySegment);
-    video.addEventListener('canplay', ensurePlaySegment);
-
-    // Mobile/Autoplay fallback: try to play on first user interaction
-    const resumeOnInteraction = ()=>{
-      ensurePlaySegment();
-      window.removeEventListener('click', resumeOnInteraction);
-      window.removeEventListener('touchstart', resumeOnInteraction);
-    };
-    window.addEventListener('click', resumeOnInteraction);
-    window.addEventListener('touchstart', resumeOnInteraction);
-  }
+if (video) {
+  video.addEventListener("canplay", () => {
+    video.play().catch(() => {});
+  });
+}
 
   // Language toggle: persist selection and update html[data-lang]
   (function(){
