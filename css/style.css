@@ -914,6 +914,12 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 .fellowship-card p{margin:0 0 1rem;color:var(--muted)}
 .fellowship-card .btn{margin-top:auto}
 
+@media (min-width: 687px) and (max-width: 1047px) {
+  .fellowship-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .outreach-slideshow{position:relative;margin-top:1.5rem;border-radius:10px;overflow:hidden;background:#111}
 .outreach-slideshow .slide{display:none;position:relative;transition:opacity .45s ease}
 .outreach-slideshow .slide.active{display:block;opacity:1}
