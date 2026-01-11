@@ -914,7 +914,7 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 .fellowship-card p{margin:0 0 1rem;color:var(--muted)}
 .fellowship-card .btn{margin-top:auto}
 
-@media (min-width: 687px) and (max-width: 1047px) {
+@media (min-width: 687px) and (max-width: 1078px) {
   .fellowship-grid {
     grid-template-columns: repeat(2, 1fr);
   }
