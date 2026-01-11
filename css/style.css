@@ -1038,12 +1038,15 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   .hero{min-height:360px}
 
   /* Stack prayer form and wall vertically on mobile */
-  .prayer-columns{grid-template-columns:1fr}
+
 
   /* Align rule book card left on mobile */
   .rules-download{text-align:left}
 }
+@media (max-width:700px){
 
+ .prayer-columns{grid-template-columns:1fr}
+}
 /* Additional mobile refinements */
 @media (max-width:700px){
  .events-grid{
