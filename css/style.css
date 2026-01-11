@@ -10,7 +10,7 @@
 }
 @font-face {
   font-family: "Mandali";
-  src: url("/fonts/Mandali.ttf") format("truetype");
+  src: url("../fonts/Mandali.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
