@@ -1109,3 +1109,22 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   .promise-dialog{padding:0.5rem}
   .promise-close{right:12px;top:12px}
 }
+#history,
+#sermons,
+#calendar,
+#outreach,
+#contact,
+#prayer1
+
+ {
+  background-color: #ffffff;
+}
+
+#songbook,
+#events,
+#prayer,
+#fellowships,
+#donations 
+ {
+  background-color: #f0f7ff;
+}
