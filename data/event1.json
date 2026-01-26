@@ -1,0 +1,36 @@
+{
+  "id": 1,
+  "title": "Centenary Celebration",
+  "category": "Celebration",
+  "date": "2025-10-08",
+  "media": [
+    {
+      "type": "image",
+      "src": "images/events/event1/IMG-20251217-WA0094.jpg"
+    },
+    {
+      "type": "image",
+      "src": "images/events/event1/IMG-20251217-WA0099.jpg"
+    },
+    {
+      "type": "image",
+      "src": "images/events/event1/IMG-20251221-WA0029.jpg"
+    },
+    {
+      "type": "image",
+      "src": "images/events/event1/IMG-20251223-WA0009.jpg"
+    },
+    {
+      "type": "video",
+      "src": "images/events/event1/VID-20251221-WA0041.mp4"
+    },
+    {
+      "type": "video",
+      "src": "images/events/event1/VID-20251221-WA0042.mp4"
+    },
+    {
+      "type": "video",
+      "src": "images/events/event1/VID-20251221-WA0044.mp4"
+    }
+  ]
+}

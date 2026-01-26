@@ -1,0 +1,34 @@
+{
+  "id": 2,
+  "title": "Youth Retreat",
+  "category": "Retreat",
+  "date": "2025-09-21",
+  "media": [
+    { "type": "image", "src": "images/events/event2/IMG-20251219-WA0013.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251219-WA0028.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251219-WA0072.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251219-WA0073.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251219-WA0074.jpg" },
+
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0001.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0009.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0011.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0014.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0031.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0032.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0034.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0039.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0082.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0083.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251220-WA0085.jpg" },
+
+    { "type": "video", "src": "images/events/event2/VID-20251218-WA0016.mp4" },
+
+    { "type": "image", "src": "images/events/event2/IMG-20251218-WA0008.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251218-WA0009.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251218-WA0021.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251218-WA0036.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251219-WA0011.jpg" },
+    { "type": "image", "src": "images/events/event2/IMG-20251219-WA0012.jpg" }
+  ]
+}
