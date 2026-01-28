@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <!-- Language + Sermons minimal styles -->
   <style>
+    
     /* Language toggle: show only current language */
     .lang-te {
       display: inline;
@@ -158,7 +159,7 @@
     /* left / right helpers (keep existing markup working) */
     .hero-left {
       flex: 1 1 50%;
-     
+      
       /* reserved if needed later */
     }
 
@@ -347,7 +348,7 @@
           </div>
         </div>
       </nav>
-
+      
       <!-- Language switch -->
       <button id="langToggle" class="btn lang-switch" aria-label="Change language">
         <span class="lang-te">English</span>
@@ -362,7 +363,7 @@
 <section class="hero" role="region" aria-label="Hero section">
 
             <video id="bgVideo" class="video-bg" playsinline muted preload="auto" poster="intro.jpeg" autoplay loop aria-hidden="true" >
-    <source src="intos.mp4" type="video/mp4">
+    <source src="intros.mp4" type="video/mp4">
   </video>
 
 
@@ -370,9 +371,7 @@
         <!-- .hero-left reserved -->
 
         <div class="hero-left" aria-hidden="true">
-                  <div class="hero-left" aria-hidden="true">
           <img src="120-year-anniversary-anniversary-logo-design-with-double-line-concept-vector-illustration_696157-5687 (1).png" alt="image load fail">
-        </div>
         </div>
 
         <div class="hero-right">
@@ -519,7 +518,7 @@
   <!-- ROW 2 -->
   <div class="song-bottom-row">
     <a id="downloadSongbook" class="btn"
-      href="downloads/andhra_christava_keerthanalu.pdf" download>
+      href="andhra_christava_keerthanalu.pdf" download>
       <span class="lang-te">డౌన్లోడ్ చేయండి</span>
       <span class="lang-en">Download Song Book</span>
     </a>
@@ -545,13 +544,15 @@
           <div class="song-modal-dialog" role="dialog" aria-modal="true" aria-label="Song viewer"
             style="max-width:900px;">
             <div class="song-modal-header"
-              style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem;">
+              style="display:flex;justify-content:space-between;align-items:center;padding: 1rem;">
               <strong id="songModalTitle">Song</strong>
               <button id="songCloseBtn" class="btn" aria-label="Close">Close ✕</button>
             </div>
-            <div class="song-modal-body" style="height:70vh;padding:0.5rem;">
-              <iframe id="songFrame" src="" title="Song page"
-                style="width:100%;height:100%;border:0;border-radius:6px;background:#fff"></iframe>
+            <div class="song-modal-body" style="height:70vh;padding:1rem;">
+              <div id="songContent" class="song-content"></div>
+
+              <!-- <iframe id="songFrame" src="" title="Song page"
+                style="width:100%;height:100%;border:0;border-radius:6px;background:#fff"></iframe> -->
             </div>
           </div>
         </div>
@@ -563,28 +564,82 @@
       </div>
     </section>
 
-    <section id="sermons" class="section container">
-      <h2><span class="lang-te">ప్రసంగాలు (లైవ్ & గత ప్రసారాలు)</span><span class="lang-en">Sermons (Live &
-          previous)</span></h2>
-      <p class="lang-te">తాజా లైవ్/స్ట్రీమ్ వీడియో కింద కనిపిస్తుంది. పక్కన గత వీడియోలను స్క్రోల్ చేసి ఎంచుకోండి.</p>
-      <p class="lang-en">The latest stream appears below. Browse previous videos on the right.</p>
+<!-- 
+<section id="sermons" class="section container">
 
-      <!-- Dynamic sermons UI -->
-      <div class="sermon-grid">
-        <div id="sermonMain" class="sermon-main" data-channel-id="REPLACE_WITH_YOUR_CHANNEL_ID">
-          <!-- Fallback embed will be injected via JS -->
-        </div>
-        <aside>
-          <div class="sermon-thumbs" id="sermonThumbs" aria-label="Previous videos"></div>
-          <div style="margin-top:.5rem">
-            <a class="btn" href="https://www.youtube.com/@CABCKakinada/streams" target="_blank" rel="noopener">
-              <span class="lang-te">అన్ని లైవ్ వీడియోలు</span>
-              <span class="lang-en">All live videos</span>
-            </a>
-          </div>
-        </aside>
+  <h2>
+    <span class="lang-te">ప్రసంగాలు (లైవ్ & గత ప్రసారాలు)</span>
+    <span class="lang-en">Sermons (Live & previous)</span>
+  </h2>
+
+  <p>Latest sermon plays below. Browse previous sermons on the right.</p>
+
+  <div class="sermon-grid">
+
+  <div class="sermon-main">
+    <iframe
+      id="mainVideo"
+      src="https://www.youtube.com/embed/l0XAcTSTius?controls=1&rel=0&modestbranding=1"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <aside class="sermon-sidebar">
+    <div class="sermon-thumbs">
+
+      <div class="thumb" onclick="loadVideo('P9gUl-bySiw')">
+        <img src="https://img.youtube.com/vi/P9gUl-bySiw/mqdefault.jpg" alt="Sermon 1">
+        <span>Sermon 1</span>
       </div>
-    </section>
+
+      <div class="thumb" onclick="loadVideo('WAATW7X64Cc')">
+        <img src="https://img.youtube.com/vi/WAATW7X64Cc/mqdefault.jpg" alt="Sermon 2">
+        <span>Sermon 2</span>
+      </div>
+
+      <div class="thumb" onclick="loadVideo('l0XAcTSTius')">
+        <img src="https://img.youtube.com/vi/l0XAcTSTius/mqdefault.jpg" alt="Sermon 3">
+        <span>Current Sermon</span>
+      </div>
+
+      <div class="thumb" onclick="loadVideo('sGO4WUeYoms')">
+        <img src="https://img.youtube.com/vi/sGO4WUeYoms/mqdefault.jpg" alt="143 Women Conference">
+        <span>143 Women Conference</span>
+      </div>
+
+    </div>
+  </aside>
+
+</div>
+
+</section> -->
+<section id="sermons" class="section container">
+
+  <h2>
+    <span class="lang-te">ప్రసంగాలు (లైవ్ & గత ప్రసారాలు)</span>
+    <span class="lang-en">Sermons (Live & previous)</span>
+  </h2>
+
+  <p>Latest sermon plays below. Browse previous sermons on the right.</p>
+
+  <div class="sermon-grid">
+
+    <!-- MAIN VIDEO (JS will inject iframe here) -->
+    <div id="sermonMain" class="sermon-main"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sermon-sidebar">
+      <div id="sermonThumbs" class="sermon-thumbs"></div>
+    </aside>
+
+  </div>
+
+</section>
+
+
+
+
+
 
     <section id="events" class="section container">
       <h2><span class="lang-te">ఈవెంట్స్ గ్యాలరీ</span><span class="lang-en">Events gallery</span></h2>
@@ -593,18 +648,21 @@
           to pause each slideshow.</span></p>
 
       <div id="eventsGrid" class="events-grid">
-        <!-- Event cards will be rendered by JS. Example structure:
-            <article class="event-card" data-event-id="1">
-              <div class="event-slideshow" data-index="0">
-                <img src="..." />
-                <div class="photo-count">3 photos</div>
-              </div>
-              <div class="event-body">
-                <h3>Event title</h3>
-                <div class="event-meta">Category · 08 Oct 2025</div>
-              </div>
-            </article>
-          -->
+
+            <!-- Event Gallery Modal -->
+<div id="eventGalleryModal" class="event-modal" style="display:none;">
+  <div class="event-modal-backdrop" id="eventGalleryBackdrop"></div>
+
+  <div class="event-modal-dialog">
+    <div class="event-modal-header">
+      <strong id="eventGalleryTitle"></strong>
+      <button class="btn" id="closeEventGallery">Close ✕</button>
+    </div>
+
+    <div id="eventGalleryGrid" class="event-gallery-grid"></div>
+  </div>
+</div>
+
       </div>
     </section>
 
@@ -658,17 +716,7 @@
           <h3><span class="lang-te">ప్రార్థన అభ్యర్థనను సమర్పించండి</span><span class="lang-en">Submit a prayer
               request</span></h3>
           <form id="prayerForm" class="membership-form" onsubmit="return false;">
-            <!-- <label> <span class="lang-te">మీ పూర్తి పేరు</span><span class="lang-en">Name</span> <input id="prayerName"
-                placeholder="Your name (optional)" /></label>
-            <label><span class="lang-te">ప్రార్థన</span><span class="lang-en">Prayer</span> <textarea id="prayerText"
-                required placeholder="Write your prayer request"></textarea></label>
-            <label><input id="prayerAnon" type="checkbox" /> <span class="lang-te">గోప్యంగా పోస్ట్ చేయండి</span><span
-                class="lang-en">Post anonymously</span></label>
-            <div style="margin-top:0.5rem"><button id="prayerSubmit" class="btn primary"><span
-                  class="lang-te">సమర్పించండి</span><span class="lang-en">Submit</span></button></div>
-          </form>
-        </div>
-        <form id="prayerForm" class="membership-form" onsubmit="return false;"> -->
+           
 
   <label>
     <span class="lang-te">మీ పూర్తి పేరు</span>
@@ -699,8 +747,7 @@
   </div>
 
 </form>
-        </div>
-
+</div>
 
         <div class="prayer-right">
           <h3><span class="lang-te">ప్రార్థన గోడ</span><span class="lang-en">Prayer wall</span></h3>
@@ -718,7 +765,7 @@
       </div>
     </section>
 
-    <section id="prayer1" class="section container">
+    <section id="prayer" class="section container">
       <h2><span class="lang-te">డౌన్‌లోడ్‌లు/దిగుమతులు</span><span class="lang-en">Downloads</span></h2>
 
         <div class="membership-right">
@@ -1039,7 +1086,6 @@
                 hint.style.padding = '6px 8px';
                 hint.style.borderRadius = '6px';
                 hint.style.fontSize = '12px';
-                hint.innerHTML = `If the song doesn't appear, <a href="${songUrl}" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">open in new tab</a>.`;
                 const dlg = songModal.querySelector('.song-modal-dialog');
                 dlg && dlg.appendChild(hint);
               }

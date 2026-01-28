@@ -1,0 +1,45 @@
+{
+  "id": 3,
+  "title": "Outreach Day",
+  "category": "Outreach",
+  "date": "2025-10-15",
+  "media": [
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0180.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0187.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0188.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0189.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0192.jpg" },
+
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0042.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0043.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0044.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0045.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0046.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0047.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0048.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0049.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0050.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0051.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251225-WA0052.jpg" },
+
+    { "type": "image", "src": "images/events/event3/IMG-20251226-WA0004.jpg" },
+
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0018.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0028.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0032.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0034.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0035.jpg" },
+
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0054.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0056.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0069.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0073.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0074.jpg" },
+
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0096.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0101.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0103.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0104.jpg" },
+    { "type": "image", "src": "images/events/event3/IMG-20251228-WA0142.jpg" }
+  ]
+}

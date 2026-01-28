@@ -11,6 +11,7 @@
 @font-face {
   font-family: "Mandali";
   src: url("../fonts/Mandali.ttf") format("truetype");
+
   font-weight: normal;
   font-style: normal;
 }
@@ -528,16 +529,196 @@ html[data-lang="en"] .svg-timeline .lang-en{display:inline}
 @media (min-width:900px){
   .svg-timeline-vertical{display:none}
 }
+/* ===== SERMONS LAYOUT (FIXED) ===== */
 
-.sermon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
-.sermon-card{background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 6px 18px rgba(2,6,23,0.04);display:flex;flex-direction:column}
-.video-wrap{position:relative;padding-top:56.25%;background:#0b1220}
-.video-wrap iframe{position:absolute;left:0;top:0;width:100%;height:100%;border:0}
-.video-wrap.placeholder{display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:2rem}
-.sermon-meta{padding:0.75rem 1rem;border-top:1px solid rgba(15,23,42,0.04)}
-.sermon-meta .sermon-date{font-size:0.875rem;color:var(--muted)}
-.sermon-meta .sermon-pastor{font-weight:600;margin-top:0.25rem}
-.sermon-meta .sermon-topic{margin-top:0.25rem;color:var(--muted)}
+.sermon-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1.4fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: start;
+}
+
+/* MAIN CARD (VIDEO) */
+.sermon-card {
+  background: var(--card);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* VERY IMPORTANT */
+}
+
+/* VIDEO */
+.video-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #0b1220;
+}
+
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* PLACEHOLDER (optional) */
+.video-wrap.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  padding: 2rem;
+}
+
+/* SIDEBAR */
+.sermon-sidebar {
+  min-width: 0;
+}
+
+/* THUMB GRID */
+.sermon-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+/* THUMB ITEM */
+.sermon-thumb {
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+.sermon-thumb img {
+  width: 100%;
+  display: block;
+}
+
+/* PLAY ICON */
+.sermon-thumb::after {
+  content: "▶";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+/* SERMON META */
+.sermon-meta {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(15,23,42,0.04);
+}
+
+.sermon-meta .sermon-date {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.sermon-meta .sermon-pastor {
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.sermon-meta .sermon-topic {
+  margin-top: 0.25rem;
+  color: var(--muted);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+  .sermon-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sermon-thumbs {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+
+
+.pdf-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* Song number input */
+#songNumber{
+  width: 100%;
+
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+
+  outline: none;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Focus state */
+#songNumber:focus{
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96,165,250,0.25);
+}
+
+/* Placeholder */
+#songNumber::placeholder{
+  color: #9ca3af;
+}
+
+/* Remove number arrows */
+/* Chrome / Edge / Safari */
+#songNumber::-webkit-inner-spin-button,
+#songNumber::-webkit-outer-spin-button{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+
+
+/* Row 1: input + go */
+.song-top-row {
+  display: flex;
+  gap: 12px;
+}
+
+.song-top-row input {
+  flex: 1;
+}
+
+/* Row 2: download + promise side by side */
+.song-bottom-row {
+  display: flex;
+  gap: 8px;
+}
+
+.song-bottom-row .btn {
+  flex: 1;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .song-bottom-row {
+    flex-direction: column;
+  }
+}
+
 
 
 .pdf-controls {
@@ -764,7 +945,12 @@ html[data-lang="en"] .svg-timeline .lang-en{display:inline}
 html[data-lang="en"] .calendar-notes .lang-te{display:none}
 html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 
-.prayer-columns{display:grid;grid-template-columns:1fr 360px;gap:1rem;margin-top:1rem}
+.prayer-columns {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 .prayer-left{background:var(--card);padding:1rem;border-radius:8px}
 .prayer-right{background:var(--card);padding:1rem;border-radius:8px}
 .prayer-wall{max-height:360px;overflow:auto;display:flex;flex-direction:column;gap:0.5rem}
@@ -784,12 +970,6 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 .site-footer{padding:2rem 0;color:var(--muted)}
 
 
-.membership-columns{
-  display:grid;
-  grid-template-columns: 1fr 300px;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
 
 
 
@@ -814,7 +994,7 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 
 .membership-form{
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1rem 2rem;
   align-items: start;
 }
@@ -907,12 +1087,18 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 
 
 
-.fellowship-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:1.5rem}
+
+.fellowship-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:1.5rem}
 .fellowship-card{background:var(--card);padding:1.5rem;border-radius:10px;text-align:center;display:flex;flex-direction:column;align-items:center}
 .fellowship-icon{font-size:2rem;margin-bottom:0.5rem}
 .fellowship-card h3{margin:0 0 0.5rem}
 .fellowship-card p{margin:0 0 1rem;color:var(--muted)}
 .fellowship-card .btn{margin-top:auto}
+@media (min-width: 687px) and (max-width: 1078px) {
+  .fellowship-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (min-width: 687px) and (max-width: 1078px) {
   .fellowship-grid {
@@ -992,6 +1178,7 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
 }
 
+
   /* Mobile nav as slide-down panel */
   .nav{
     margin: 0;              /* 🔑 IMPORTANT */
@@ -1032,18 +1219,24 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   }
 
   .sermon-grid{grid-template-columns:1fr}
+    .sermon-thumbs {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
   .membership-columns{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
   .container{padding:0.75rem}
   .hero{min-height:360px}
 
   /* Stack prayer form and wall vertically on mobile */
-
+ 
 
   /* Align rule book card left on mobile */
   .rules-download{text-align:left}
 }
 @media (max-width:700px){
+
+ .prayer-columns{grid-template-columns:1fr}
+}
 
  .prayer-columns{grid-template-columns:1fr}
 }
@@ -1112,6 +1305,8 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   .promise-dialog{padding:0.5rem}
   .promise-close{right:12px;top:12px}
 }
+
+/* Light background */
 #history,
 #sermons,
 #calendar,
@@ -1127,7 +1322,117 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
 #events,
 #prayer,
 #fellowships,
-#donations 
+#donations /* second prayer section */
  {
   background-color: #f0f7ff;
 }
+.song-content {
+  
+  height: 100%;
+  font-family: AnjaliOldLipi, serif;
+  font-size: 19px;
+  line-height: 2.1;
+  color: #111;
+  overflow-y: auto;
+}
+
+.song-content .pallavi {
+  font-weight: 700;
+  color: #000;
+  margin: 1rem 0;
+  text-align: right;
+}
+
+.song-content br + br {
+  display: block;
+  margin-top: 0.75rem;
+}
+/* Explore button */
+.event-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.explore-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.explore-btn:hover {
+  background: #1e40af;
+}
+
+/* Modal */
+.event-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.event-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+.event-modal-dialog {
+  position: relative;
+  background: #fff;
+  max-width: 900px;
+  margin: 5vh auto;
+  padding: 1rem;
+  border-radius: 10px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.event-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Gallery grid */
+/* ===== EVENT GALLERY GRID ===== */
+.event-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* ===== IMAGE ITEMS ===== */
+.event-gallery-grid img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #eee;
+  cursor: pointer;
+}
+
+/* ===== VIDEO WRAPPER ===== */
+.video-thumb {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Video element */
+.video-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+
