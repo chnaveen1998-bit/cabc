@@ -1829,3 +1829,6 @@ document.addEventListener("DOMContentLoaded", function () {
     onScroll();
   })();
 });
+document.getElementById("songGotoForm").addEventListener("submit", (e) => {
+  e.preventDefault(); // ⛔ Stop page navigation
+});
