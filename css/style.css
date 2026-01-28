@@ -720,78 +720,6 @@ html[data-lang="en"] .svg-timeline .lang-en{display:inline}
 }
 
 
-
-.pdf-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-/* Song number input */
-#songNumber{
-  width: 100%;
-
-  padding: 0.6rem 0.75rem;
-  font-size: 0.95rem;
-
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-
-  outline: none;
-  background: rgba(255,255,255,0.65);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-/* Focus state */
-#songNumber:focus{
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 3px rgba(96,165,250,0.25);
-}
-
-/* Placeholder */
-#songNumber::placeholder{
-  color: #9ca3af;
-}
-
-/* Remove number arrows */
-/* Chrome / Edge / Safari */
-#songNumber::-webkit-inner-spin-button,
-#songNumber::-webkit-outer-spin-button{
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-
-
-/* Row 1: input + go */
-.song-top-row {
-  display: flex;
-  gap: 12px;
-}
-
-.song-top-row input {
-  flex: 1;
-}
-
-/* Row 2: download + promise side by side */
-.song-bottom-row {
-  display: flex;
-  gap: 8px;
-}
-
-.song-bottom-row .btn {
-  flex: 1;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .song-bottom-row {
-    flex-direction: column;
-  }
-}
-
-
 .pdf-viewer-section{margin-top:1rem}
 .pdf-goto-form{display:flex;flex-direction:column;gap:0.5rem;max-width:620px}
 /* .pdf-controls{display:flex;gap:0.5rem}
@@ -1100,12 +1028,6 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   }
 }
 
-@media (min-width: 687px) and (max-width: 1078px) {
-  .fellowship-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .outreach-slideshow{position:relative;margin-top:1.5rem;border-radius:10px;overflow:hidden;background:#111}
 .outreach-slideshow .slide{display:none;position:relative;transition:opacity .45s ease}
 .outreach-slideshow .slide.active{display:block;opacity:1}
@@ -1238,8 +1160,6 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
  .prayer-columns{grid-template-columns:1fr}
 }
 
- .prayer-columns{grid-template-columns:1fr}
-}
 /* Additional mobile refinements */
 @media (max-width:700px){
  .events-grid{
@@ -1435,4 +1355,9 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   cursor: pointer;
 }
 
-
+@media (max-width:640px) {
+  .event-head{
+    display:block
+  }
+  
+}
