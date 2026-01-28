@@ -395,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
     async function openEventGallery(ev) {
-      const res = await fetch(`/data/event${ev.id}.json`);
+      const res = await fetch(`data/event${ev.id}.json`);
       const data = await res.json();
 
       const modal = document.getElementById("eventGalleryModal");
