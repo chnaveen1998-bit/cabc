@@ -1565,7 +1565,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       try {
-        const res = await fetch("/data/AKKSongs.xml");
+        const res = await fetch("data/AKKSongs.xml");
         const xmlText = await res.text();
         const xml = new DOMParser().parseFromString(xmlText, "text/xml");
 
