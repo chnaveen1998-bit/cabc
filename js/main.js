@@ -1832,3 +1832,19 @@ document.addEventListener("DOMContentLoaded", function () {
 document.getElementById("songGotoForm").addEventListener("submit", (e) => {
   e.preventDefault(); // ⛔ Stop page navigation
 });
+const form = document.getElementById("songGotoForm");
+const input = document.getElementById("songNumber");
+const goBtn = document.getElementById("goSong");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // ⛔ stop navigation
+  goBtn.click(); // ✅ run search
+});
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault(); // ⛔ stop reload
+    goBtn.click(); // ✅ same as pressing Go
+  }
+});
+
