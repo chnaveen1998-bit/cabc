@@ -99,7 +99,7 @@ body{
 .dropdown-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:180px;background:var(--card);box-shadow:0 8px 24px rgba(2,6,23,0.12);border-radius:8px;padding:0.5rem;display:none;flex-direction:column;z-index:120;opacity:0;transform:translateY(-6px);transition:opacity .2s ease, transform .2s ease}
 .dropdown-menu a{display:block;padding:0.5rem 0.6rem;color:var(--muted);text-decoration:none;border-radius:6px}
 .dropdown-menu a:hover{background:rgba(15,23,42,0.04)}
-.nav-item.dropdown:hover .dropdown-menu{display:flex;opacity:1;transform:none}
+/* Hover behaviour is restricted to wide screens via media query (see below). */
 /* JS-driven open state on mobile */
 .dropdown-menu.open{display:flex;opacity:1;transform:none}
 
@@ -107,6 +107,8 @@ body{
 @media (min-width:901px){
   .nav-item.dropdown:hover .dropdown-menu{
     display:flex;
+    opacity:1;
+    transform:none;
   }
 }
 
@@ -1361,3 +1363,4 @@ html[data-lang="en"] .calendar-notes .lang-en{display:inline}
   }
   
 }
+
