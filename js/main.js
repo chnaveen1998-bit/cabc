@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!toggle || !menu) return;
     toggle.addEventListener("click", (e) => {
       e.stopPropagation();
+      // Only toggle dropdown on small screens (mobile/touch). On desktop,
+      // hover handles it and click should not override that behavior.
+      if (window.innerWidth > 900) return;
       const wasOpen = menu.classList.contains("open");
       // close all other dropdowns
       document
@@ -56,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .querySelectorAll(".dropdown-menu.open")
             .forEach((m) => m.classList.remove("open"));
         }
-      })
+      }),
     );
   });
   // Close dropdowns when clicking elsewhere (but only if the click is outside the nav)
@@ -66,6 +69,20 @@ document.addEventListener("DOMContentLoaded", function () {
     document
       .querySelectorAll(".dropdown-menu.open")
       .forEach((m) => m.classList.remove("open"));
+  });
+
+  // When we exceed the mobile breakpoint, clear mobile-only open states and the mobile nav
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) {
+      document
+        .querySelectorAll(".dropdown-menu.open")
+        .forEach((m) => m.classList.remove("open"));
+      document
+        .querySelectorAll('.dropdown-toggle[aria-expanded="true"]')
+        .forEach((t) => t.setAttribute("aria-expanded", "false"));
+      const navEl = document.querySelector(".nav");
+      if (navEl) navEl.classList.remove("nav-open");
+    }
   });
   const video = document.getElementById("bgVideo");
 
@@ -228,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((err) => {
         console.warn(
           "PDF.js failed to load PDF (falling back to iframe). Error:",
-          err
+          err,
         );
         // Try iframe fallback (works when file is accessible via browser plugin)
         fallbackToIframe(1);
@@ -249,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
           alert(
             "Requested page exceeds number of pages in document (" +
               pdfDoc.numPages +
-              ")"
+              ")",
           );
           return;
         }
@@ -554,7 +571,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 div.className = "prayer-item";
                 const name = item.name || item.memberName || "Guest";
                 const time = new Date(
-                  item.ts || item.ts === 0 ? item.ts * 1 : item.ts
+                  item.ts || item.ts === 0 ? item.ts * 1 : item.ts,
                 ).toLocaleString();
                 div.innerHTML = `<div class="meta">${time} · ${
                   item.anon ? "Anonymous" : name
@@ -599,7 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const j = await res.json().catch(() => null);
           if (res.ok && j && j.success) {
             alert(
-              "Your prayer request has been submitted for review. It will appear on the wall once approved."
+              "Your prayer request has been submitted for review. It will appear on the wall once approved.",
             );
             this.reset();
             return;
@@ -609,7 +626,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         // Fallback: save locally
         let pendingPrayers = JSON.parse(
-          localStorage.getItem("pendingPrayers") || "[]"
+          localStorage.getItem("pendingPrayers") || "[]",
         );
         pendingPrayers.push({
           ts: Date.now(),
@@ -619,7 +636,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         localStorage.setItem("pendingPrayers", JSON.stringify(pendingPrayers));
         alert(
-          "Your prayer request has been submitted for review (offline). It will appear on the wall once approved."
+          "Your prayer request has been submitted for review (offline). It will appear on the wall once approved.",
         );
         this.reset();
       });
@@ -662,7 +679,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Clean old prayers older than 30 days
       const now = Date.now();
       const fresh = loadPrayers().filter(
-        (p) => now - p.ts <= 1000 * 60 * 60 * 24 * 30
+        (p) => now - p.ts <= 1000 * 60 * 60 * 24 * 30,
       );
       savePrayers(fresh);
       renderPrayers();
@@ -684,7 +701,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       let prayerScrollInterval = startPrayerScroll();
       prayerWall.addEventListener("mouseenter", () =>
-        clearInterval(prayerScrollInterval)
+        clearInterval(prayerScrollInterval),
       );
       prayerWall.addEventListener("mouseleave", () => {
         prayerScrollInterval = startPrayerScroll();
@@ -801,7 +818,7 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         // Collect form data and validate duplicates
         let applications = JSON.parse(
-          localStorage.getItem("membershipApplications") || "[]"
+          localStorage.getItem("membershipApplications") || "[]",
         );
         const name = document.getElementById("memberName").value.trim();
         const phone = document.getElementById("memberPhone").value.trim();
@@ -815,11 +832,11 @@ document.addEventListener("DOMContentLoaded", function () {
           (a) =>
             (a.name && a.name.trim().toLowerCase() === name.toLowerCase()) ||
             (a.phone && a.phone === phone) ||
-            (a.email && a.email.toLowerCase() === email)
+            (a.email && a.email.toLowerCase() === email),
         );
         if (dup) {
           alert(
-            "An application with the same name, phone or email already exists. Please check your details."
+            "An application with the same name, phone or email already exists. Please check your details.",
           );
           return;
         }
@@ -885,7 +902,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ? document.getElementById("memberEducation").value
             : "",
           otherQualifications: document.getElementById(
-            "memberOtherQualifications"
+            "memberOtherQualifications",
           )
             ? document.getElementById("memberOtherQualifications").value
             : "",
@@ -941,7 +958,7 @@ document.addEventListener("DOMContentLoaded", function () {
         applications.push(appObj);
         localStorage.setItem(
           "membershipApplications",
-          JSON.stringify(applications)
+          JSON.stringify(applications),
         );
         document.getElementById("membershipAck").textContent =
           "Thank you! Your application number is: " +
@@ -999,7 +1016,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const rows = arr.map((a) =>
           headers
             .map((h) => '"' + String(a[h] || "").replace(/"/g, '""') + '"')
-            .join(",")
+            .join(","),
         );
         const csv = [headers.join(","), ...rows].join("\n");
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -1046,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const rows = prayers.map((p) =>
           headers
             .map((h) => '"' + String(p[h] || "").replace(/"/g, '""') + '"')
-            .join(",")
+            .join(","),
         );
         const csv = [headers.join(","), ...rows].join("\n");
 
@@ -1061,7 +1078,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const j = await res.json().catch(() => null);
             alert(
               "Prayers uploaded to server." +
-                (j && j.files ? "\nSaved: " + j.files.join(", ") : "")
+                (j && j.files ? "\nSaved: " + j.files.join(", ") : ""),
             );
             return;
           } else {
@@ -1071,7 +1088,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (err) {
           console.warn(
             "Upload to server failed, falling back to download:",
-            err
+            err,
           );
           const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
           downloadBlob("prayer_requests.csv", blob);
@@ -1102,7 +1119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const rows = arr.map((a) =>
           headers
             .map((h) => '"' + String(a[h] || "").replace(/"/g, '""') + '"')
-            .join(",")
+            .join(","),
         );
         const csv = [headers.join(","), ...rows].join("\n");
 
@@ -1117,7 +1134,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const j = await res.json().catch(() => null);
             alert(
               "Membership applications uploaded to server." +
-                (j && j.files ? "\nSaved: " + j.files.join(", ") : "")
+                (j && j.files ? "\nSaved: " + j.files.join(", ") : ""),
             );
             return;
           } else {
@@ -1127,7 +1144,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (err) {
           console.warn(
             "Upload to server failed, falling back to download:",
-            err
+            err,
           );
           const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
           downloadBlob("membership_applications.csv", blob);
@@ -1285,7 +1302,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const clientId = cfg.googleClientId || "";
         if (!clientId) {
           console.warn(
-            "Missing GOOGLE_CLIENT_ID on server; Admin Login disabled."
+            "Missing GOOGLE_CLIENT_ID on server; Admin Login disabled.",
           );
           return;
         }
@@ -1305,7 +1322,7 @@ document.addEventListener("DOMContentLoaded", function () {
               if (j && j.success) {
                 alert(
                   "Signed in as " +
-                    (j.user && j.user.email ? j.user.email : "user")
+                    (j.user && j.user.email ? j.user.email : "user"),
                 );
                 updateUi(true);
                 // Redirect to admin dashboard after successful login
@@ -1316,7 +1333,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } catch (e) {}
               } else {
                 alert(
-                  "Login failed: " + (j && j.message ? j.message : "unknown")
+                  "Login failed: " + (j && j.message ? j.message : "unknown"),
                 );
               }
             } catch (err) {
@@ -1356,7 +1373,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (j && j.success) {
               alert(
                 "Signed in as " +
-                  (j.user && j.user.email ? j.user.email : "user")
+                  (j.user && j.user.email ? j.user.email : "user"),
               );
               updateUi(true);
               // Redirect to admin dashboard after successful login
@@ -1367,7 +1384,7 @@ document.addEventListener("DOMContentLoaded", function () {
               } catch (e) {}
             } else {
               alert(
-                "Login failed: " + (j && j.message ? j.message : "unknown")
+                "Login failed: " + (j && j.message ? j.message : "unknown"),
               );
             }
           } catch (e) {
@@ -1401,8 +1418,8 @@ document.addEventListener("DOMContentLoaded", function () {
         forceLoggedIn === true
           ? { user: {} }
           : forceLoggedIn === false
-          ? { user: null }
-          : await apiMe();
+            ? { user: null }
+            : await apiMe();
       const loggedIn = !!(state && state.user);
       if (loginLink) loginLink.style.display = loggedIn ? "none" : "";
       const ll = ensureLogoutLink();
@@ -1442,7 +1459,7 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.12 },
     );
     els.forEach((el) => io.observe(el));
   });
@@ -1501,13 +1518,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (data && data.success) {
               showAck(
                 "<strong>Application submitted.</strong> Thank you.",
-                false
+                false,
               );
               form.reset();
             } else {
               showAck(
                 "<strong>Error:</strong> " + (data.message || "Unknown error"),
-                true
+                true,
               );
             }
           })
@@ -1542,7 +1559,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .replace(/<\/?slide>/gi, "")
         .replace(
           /\|\|([^|]+)\|\|/g,
-          (_, p) => `<div class="pallavi">${p.trim()}</div>`
+          (_, p) => `<div class="pallavi">${p.trim()}</div>`,
         )
         .replace(/\n\s*\n/g, "<br><br>")
         .replace(/\n/g, "<br>")
@@ -1565,12 +1582,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       try {
-        const res = await fetch("data/AKKSongs.xml");
+        const res = await fetch("/data/AKKSongs.xml");
         const xmlText = await res.text();
         const xml = new DOMParser().parseFromString(xmlText, "text/xml");
 
         let foundSong = [...xml.getElementsByTagName("song")].find(
-          (s) => s.getElementsByTagName("key")[0]?.textContent === val
+          (s) => s.getElementsByTagName("key")[0]?.textContent === val,
         );
 
         if (!foundSong) {
@@ -1705,7 +1722,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } catch (err) {
         console.warn("Failed to load sheet", err);
         setStatus(
-          "Unable to load members from the sheet. Make sure the sheet is public."
+          "Unable to load members from the sheet. Make sure the sheet is public.",
         );
       }
     }
@@ -1767,7 +1784,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!q) return members.slice();
       const nq = normalize(q);
       return members.filter((m) =>
-        normalize(m.Name || m["Name (EN)"] || m["Name (TE)"] || "").includes(nq)
+        normalize(m.Name || m["Name (EN)"] || m["Name (TE)"] || "").includes(
+          nq,
+        ),
       );
     }
 
@@ -1847,4 +1866,3 @@ input.addEventListener("keydown", (e) => {
     goBtn.click(); // ✅ same as pressing Go
   }
 });
-
